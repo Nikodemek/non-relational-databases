@@ -1,3 +1,10 @@
-﻿// See https://aka.ms/new-console-template for more information
+﻿using Cinema;
+using Cinema.Data;
+using Cinema.Models;
 
-Console.WriteLine("Hello, World!");
+using CinemaContext context = new CinemaContext();
+
+var ticket = context.Tickets
+    .FirstOrDefault(t => t.Price > 16);
+
+Console.WriteLine(ticket);
