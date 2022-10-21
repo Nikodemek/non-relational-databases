@@ -33,4 +33,20 @@ public class TicketService : ITicketService
         _context.SaveChanges();
         return addedTicket.Entity;
     }
+
+    public Ticket? Update(Ticket ticket)
+    {
+        var updatedTicket = _tickets.Update(ticket);
+        _context.SaveChanges();
+        return updatedTicket.Entity;
+    }
+
+    public Ticket? Archive(int id)
+    {
+        var ticket = Get(id);
+        if (ticket is null) return null;
+        
+        ticket.Archived = true;
+        return Update(ticket);
+    }
 }
