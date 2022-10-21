@@ -23,16 +23,16 @@ public class ClientController : ControllerBase
     [HttpGet("{id:int}")]
     public Client? Get(int id) => _clientService.Get(id);
 
-    [HttpGet("Register")]
+    [HttpPost("Register")]
     public Client? Register(Client newClient) => _clientService.Create(newClient);
 
-    [HttpGet("Update/{id:int}")]
+    [HttpPut("Update/{id:int}")]
     public Client? Update(Client updatedClient) => _clientService.Update(updatedClient);
 
-    [HttpGet("Archive/{id:int}")]
+    [HttpPut("Archive/{id:int}")]
     public Client? Archive(int id) => _clientService.Archive(id);
 
-    [HttpGet("Remove/{id:int}")]
+    [HttpDelete("Remove/{id:int}")]
     public bool Remove(int id) => _clientService.Remove(id);
 
 }

@@ -23,6 +23,6 @@ public class TicketController : ControllerBase
     [HttpGet("{id:int}")]
     public Ticket? Get(int id) => _ticketService.Get(id);
 
-    [HttpGet("Register")]
+    [HttpPost("Register")]
     public Ticket? Register(Ticket newTicket) => _ticketService.Create(newTicket);
 }

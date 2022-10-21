@@ -18,12 +18,14 @@ public class ScreeningService : IScreeningService
 
     public IEnumerable<Screening> GetAll()
     {
-        return _screenings;
+        return _screenings
+            .Include(screening => screening.Movie);
     }
 
     public Screening? Get(int id)
     {
         return _screenings
+            .Include(screening => screening.Movie)
             .FirstOrDefault(screening => screening.Id == id);
     }
 

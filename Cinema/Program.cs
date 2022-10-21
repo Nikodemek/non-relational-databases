@@ -1,4 +1,6 @@
+using Cinema;
 using Cinema.Data;
+using Cinema.Models;
 using Cinema.Services;
 using Cinema.Services.Interfaces;
 using Cinema.Utils;
@@ -18,6 +20,10 @@ services.AddDbContextPool<CinemaContext>(
 );
 services.AddTransient<IClientService, ClientService>();
 services.AddTransient<IAddressService, AddressService>();
+services.AddTransient<IMovieService, MovieService>();
+services.AddTransient<IScreeningService, ScreeningService>();
+services.AddTransient<ITicketService, TicketService>();
+services.AddTransient<IOrderService, OrderService>();
 
 var app = builder.Build();
 

@@ -18,13 +18,22 @@ public class TicketService : ITicketService
 
     public IEnumerable<Ticket> GetAll()
     {
+        TestData.AddAllData(_context);
         return _tickets;
     }
 
     public Ticket? Get(int id)
     {
         return _tickets
+            .Include(ticket => ticket.Screening)
             .FirstOrDefault(ticket => ticket.Id == id);
+    }
+
+    public IEnumerable<Ticket> GetWithIds(ICollection<int> ids)
+    {
+        return _tickets
+            .Include(ticket => ticket.Screening)
+            .Where(ticket => ids.Contains(ticket.Id));
     }
 
     public Ticket? Create(Ticket address)

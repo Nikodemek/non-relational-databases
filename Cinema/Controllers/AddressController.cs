@@ -23,6 +23,6 @@ public class AddressController : ControllerBase
     [HttpGet("{id:int}")]
     public Address? Get(int id) => _addressService.Get(id);
 
-    [HttpGet("Register")]
+    [HttpPost("Register")]
     public Address? Register(Address newAddress) => _addressService.Create(newAddress);
 }

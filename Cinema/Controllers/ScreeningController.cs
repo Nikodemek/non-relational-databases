@@ -23,6 +23,6 @@ public class ScreeningController : ControllerBase
     [HttpGet("{id:int}")]
     public Screening? Get(int id) => _screeningService.Get(id);
 
-    [HttpGet("Register")]
+    [HttpPost("Register")]
     public Screening? Register(Screening newScreening) => _screeningService.Create(newScreening);
 }

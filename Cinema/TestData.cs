@@ -1,4 +1,5 @@
-﻿using Cinema.Models;
+﻿using Cinema.Data;
+using Cinema.Models;
 
 namespace Cinema;
 
@@ -58,4 +59,16 @@ public static class TestData
         Client = Client1,
         PlacedTime = DateTime.Now
     };
+
+    public static void AddAllData(CinemaContext context)
+    {
+        context.Add(Movie1);
+        context.Add(Screening1);
+        context.Add(Ticket1);
+        context.Add(Ticket2);
+        context.Add(Address1);
+        context.Add(Client1);
+
+        context.SaveChanges();
+    }
 }

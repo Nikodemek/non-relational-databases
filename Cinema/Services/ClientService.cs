@@ -20,7 +20,8 @@ public class ClientService : IClientService
 
     public IEnumerable<Client> GetAll()
     {
-        return _clients;
+        return _clients
+            .Include(c => c.Address);
     }
 
     public Client? Get(int id)

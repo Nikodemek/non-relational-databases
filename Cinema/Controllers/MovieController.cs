@@ -23,6 +23,6 @@ public class MovieController : ControllerBase
     [HttpGet("{id:int}")]
     public Movie? Get(int id) => _movieService.Get(id);
 
-    [HttpGet("Register")]
+    [HttpPost("Register")]
     public Movie? Register(Movie newMovie) => _movieService.Create(newMovie);
 }

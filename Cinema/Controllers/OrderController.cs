@@ -23,6 +23,12 @@ public class OrderController : ControllerBase
     [HttpGet("{id:int}")]
     public Order? Get(int id) => _orderService.Get(id);
 
-    [HttpGet("Register")]
+    [HttpPost("Register")]
     public Order? Register(Order newTicket) => _orderService.Create(newTicket);
+
+    [HttpPost("Place/{clientId:int}")]
+    public Order? Place(int clientId, [FromBody] int[] ticketIds)
+    {
+        return _orderService.Place(clientId, ticketIds);
+    }
 }
