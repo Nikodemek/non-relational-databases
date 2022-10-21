@@ -25,7 +25,6 @@ public class CinemaContext : DbContext
 
     public override int SaveChanges()
     {
-        using var scope = new TransactionScope();
         return base.SaveChanges();
     }
 }
