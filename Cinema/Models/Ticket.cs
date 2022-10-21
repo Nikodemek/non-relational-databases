@@ -6,7 +6,7 @@ public record Ticket
 {
     public int Id { get; set; }
     
-    public Screening Screening { get; set; } = null!;
+    public int ScreeningId { get; set; }
     
     [Column(TypeName = "decimal(6, 2)")]
     public decimal Price { get; set; }
@@ -14,4 +14,7 @@ public record Ticket
     public bool Sold { get; set; }
     
     public bool Archived { get; set; }
+    
+    
+    public virtual Screening Screening { get; set; } = null!;
 }

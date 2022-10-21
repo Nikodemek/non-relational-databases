@@ -4,7 +4,10 @@ public record Screening
 {
     public int Id { get; set; }
     
-    public Movie Movie { get; set; } = null!;
+    public int MovieId { get; set; }
     
     public DateTime Time { get; set; }
+    
+    
+    public virtual Movie Movie { get; set; } = null!;
 }

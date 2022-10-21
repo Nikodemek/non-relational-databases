@@ -5,7 +5,7 @@ namespace Cinema.Models;
 public record Order
 {
     public Order()
-        : this(Array.Empty<Ticket>())
+        : this(new HashSet<Ticket>())
     { }
 
     public Order(ICollection<Ticket> tickets)
@@ -16,12 +16,15 @@ public record Order
 
     public int Id { get; set; }
 
-    public Client Client { get; set; } = null!;
-
-    public ICollection<Ticket> Tickets { get; set; }
+    public int ClientId { get; set; }
 
     public DateTime PlacedTime { get; set; }
 
     [Column(TypeName = "decimal(6, 2)")]
     public decimal FinalPrice { get; set; }
+    
+
+    public virtual Client Client { get; set; } = null!;
+    
+    public virtual ICollection<Ticket> Tickets { get; set; }
 }
