@@ -27,8 +27,5 @@ public class OrderController : ControllerBase
     public Order? Register(Order newTicket) => _orderService.Create(newTicket);
 
     [HttpPost("Place/{clientId:int}")]
-    public Order? Place(int clientId, [FromBody] int[] ticketIds)
-    {
-        return _orderService.Place(clientId, ticketIds);
-    }
+    public Order? Place(int clientId, [FromBody] int[] ticketIds) => _orderService.Place(clientId, ticketIds);
 }

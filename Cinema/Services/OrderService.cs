@@ -1,4 +1,5 @@
 ﻿using System.Collections.Immutable;
+using System.Transactions;
 using Cinema.Data;
 using Cinema.Models;
 using Cinema.Services.Interfaces;
@@ -37,9 +38,9 @@ public class OrderService : IOrderService
             .FirstOrDefault(order => order.Id == id);
     }
 
-    public Order? Create(Order address)
+    public Order? Create(Order order)
     {
-        var addedOrder = _orders.Add(address);
+        var addedOrder = _orders.Add(order);
         _context.SaveChanges();
         return addedOrder.Entity;
     }
@@ -73,6 +74,8 @@ public class OrderService : IOrderService
         }
 
         order.Success = true;
+
+        using var scope = new TransactionScope();
 
         var createdOrder = Create(order);
         _clientService.Update(client);

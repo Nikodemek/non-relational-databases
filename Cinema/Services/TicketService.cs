@@ -18,21 +18,21 @@ public class TicketService : ITicketService
 
     public IEnumerable<Ticket> GetAll()
     {
-        TestData.AddAllData(_context);
-        return _tickets;
+        return _tickets
+            .Include(ticket => ticket.Screening).ThenInclude(screening => screening.Movie);
     }
 
     public Ticket? Get(int id)
     {
         return _tickets
-            .Include(ticket => ticket.Screening)
+            .Include(ticket => ticket.Screening).ThenInclude(screening => screening.Movie)
             .FirstOrDefault(ticket => ticket.Id == id);
     }
 
     public IEnumerable<Ticket> GetWithIds(ICollection<int> ids)
     {
         return _tickets
-            .Include(ticket => ticket.Screening)
+            .Include(ticket => ticket.Screening).ThenInclude(screening => screening.Movie)
             .Where(ticket => ids.Contains(ticket.Id));
     }
 
