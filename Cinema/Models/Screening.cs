@@ -4,12 +4,11 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace Cinema.Models;
 
-public record Screening : IMongoEntity<Screening>
+public sealed record Screening : IMongoEntity<Screening>
 {
     [BsonId]
     [BsonRepresentation(BsonType.ObjectId)]
     public int Id { get; set; }
     public Movie Movie { get; set; }
     public DateTime Time { get; set; }
-    
 }

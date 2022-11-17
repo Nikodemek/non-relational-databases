@@ -4,7 +4,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace Cinema.Models;
 
-public record Ticket : IMongoEntity<Ticket>
+public sealed record Ticket : IMongoEntity<Ticket>
 {
     [BsonId]
     [BsonRepresentation(BsonType.ObjectId)]
@@ -13,5 +13,4 @@ public record Ticket : IMongoEntity<Ticket>
     public Screening Screening { get; set; }
     public bool Sold { get; set; }
     public bool Archived { get; set; }
-    
 }
