@@ -9,20 +9,20 @@ namespace Cinema.Controllers;
 public class AddressController : ControllerBase
 {
     private readonly ILogger<AddressController> _logger;
-    private readonly IAddressService _addressService;
+    private readonly IAddresses _addresses;
 
-    public AddressController(ILogger<AddressController> logger, IAddressService addressService)
+    public AddressController(ILogger<AddressController> logger, IAddresses addresses)
     {
         _logger = logger;
-        _addressService = addressService;
+        _addresses = addresses;
     }
     
     [HttpGet]
-    public IEnumerable<Address> GetAll() => _addressService.GetAll();
+    public async Task<IEnumerable<Address>> GetAll() => await _addresses.GetAllAsync();
 
     [HttpGet("{id:int}")]
-    public Address? Get(int id) => _addressService.Get(id);
+    public async Task<Address> Get(int id) => await _addresses.GetAsync(id);
 
     [HttpPost("Register")]
-    public Address? Register(Address newAddress) => _addressService.Create(newAddress);
+    public async Task Register(Address newAddress) => await _addresses.CreateAsync(newAddress);
 }

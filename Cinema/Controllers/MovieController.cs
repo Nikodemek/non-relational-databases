@@ -9,20 +9,20 @@ namespace Cinema.Controllers;
 public class MovieController : ControllerBase
 {
     private readonly ILogger<MovieController> _logger;
-    private readonly IMovieService _movieService;
+    private readonly IMovies _movies;
 
-    public MovieController(ILogger<MovieController> logger, IMovieService movieService)
+    public MovieController(ILogger<MovieController> logger, IMovies movies)
     {
         _logger = logger;
-        _movieService = movieService;
+        _movies = movies;
     }
     
     [HttpGet]
-    public IEnumerable<Movie> GetAll() => _movieService.GetAll();
+    public async Task<IEnumerable<Movie>> GetAll() => await _movies.GetAllAsync();
 
     [HttpGet("{id:int}")]
-    public Movie? Get(int id) => _movieService.Get(id);
+    public async Task<Movie> Get(int id) => await _movies.GetAsync(id);
 
     [HttpPost("Register")]
-    public Movie? Register(Movie newMovie) => _movieService.Create(newMovie);
+    public async Task Register(Movie newMovie) => await _movies.CreateAsync(newMovie);
 }

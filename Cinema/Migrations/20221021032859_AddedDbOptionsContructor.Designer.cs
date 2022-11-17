@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Cinema.Migrations
 {
-    [DbContext(typeof(CinemaContext))]
+    [DbContext(typeof(Data.CinemaDb))]
     [Migration("20221021032859_AddedDbOptionsContructor")]
     partial class AddedDbOptionsContructor
     {

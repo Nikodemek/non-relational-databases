@@ -9,20 +9,20 @@ namespace Cinema.Controllers;
 public class ScreeningController : ControllerBase
 {
     private readonly ILogger<ScreeningController> _logger;
-    private readonly IScreeningService _screeningService;
+    private readonly IScreenings _screenings;
 
-    public ScreeningController(ILogger<ScreeningController> logger, IScreeningService screeningService)
+    public ScreeningController(ILogger<ScreeningController> logger, IScreenings screenings)
     {
         _logger = logger;
-        _screeningService = screeningService;
+        _screenings = screenings;
     }
     
     [HttpGet]
-    public IEnumerable<Screening> GetAll() => _screeningService.GetAll();
+    public async Task<IEnumerable<Screening>> GetAll() => await _screenings.GetAllAsync();
 
     [HttpGet("{id:int}")]
-    public Screening? Get(int id) => _screeningService.Get(id);
+    public async Task<Screening> Get(int id) => await _screenings.GetAsync(id);
 
     [HttpPost("Register")]
-    public Screening? Register(Screening newScreening) => _screeningService.Create(newScreening);
+    public async Task Register(Screening newScreening) => await _screenings.CreateAsync(newScreening);
 }

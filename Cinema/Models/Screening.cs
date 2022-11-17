@@ -1,13 +1,15 @@
-﻿namespace Cinema.Models;
+﻿using Cinema.Models.Interfaces;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
-public record Screening
+namespace Cinema.Models;
+
+public record Screening : IMongoEntity<Screening>
 {
+    [BsonId]
+    [BsonRepresentation(BsonType.ObjectId)]
     public int Id { get; set; }
-    
-    public int MovieId { get; set; }
-    
+    public Movie Movie { get; set; }
     public DateTime Time { get; set; }
     
-    
-    public virtual Movie Movie { get; set; } = null!;
 }

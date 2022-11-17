@@ -48,7 +48,6 @@ public static class TestData
         LastName = "Jankowski",
         Birthday = DateTime.Parse("1994-06-12 12:00:00"),
         Address = Address1,
-        PhoneNumber = "123 456 789",
         ClientType = ClientType.Default,
         AccountBalance = 120,
         Archived = false
@@ -59,16 +58,4 @@ public static class TestData
         Client = Client1,
         PlacedTime = DateTime.Now
     };
-
-    public static void AddAllData(CinemaContext context)
-    {
-        context.Add(Movie1);
-        context.Add(Screening1);
-        context.Add(Ticket1);
-        context.Add(Ticket2);
-        context.Add(Address1);
-        context.Add(Client1);
-
-        context.SaveChanges();
-    }
 }

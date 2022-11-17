@@ -9,20 +9,20 @@ namespace Cinema.Controllers;
 public class TicketController : ControllerBase
 {
     private readonly ILogger<TicketController> _logger;
-    private readonly ITicketService _ticketService;
+    private readonly ITickets _tickets;
 
-    public TicketController(ILogger<TicketController> logger, ITicketService ticketService)
+    public TicketController(ILogger<TicketController> logger, ITickets tickets)
     {
         _logger = logger;
-        _ticketService = ticketService;
+        _tickets = tickets;
     }
     
     [HttpGet]
-    public IEnumerable<Ticket> GetAll() => _ticketService.GetAll();
+    public async Task<IEnumerable<Ticket>> GetAll() => await _tickets.GetAllAsync();
 
     [HttpGet("{id:int}")]
-    public Ticket? Get(int id) => _ticketService.Get(id);
+    public async Task<Ticket> Get(int id) => await _tickets.GetAsync(id);
 
     [HttpPost("Register")]
-    public Ticket? Register(Ticket newTicket) => _ticketService.Create(newTicket);
+    public async Task Register(Ticket newTicket) => await _tickets.CreateAsync(newTicket);
 }

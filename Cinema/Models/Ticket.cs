@@ -1,20 +1,17 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using Cinema.Models.Interfaces;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace Cinema.Models;
 
-public record Ticket
+public record Ticket : IMongoEntity<Ticket>
 {
+    [BsonId]
+    [BsonRepresentation(BsonType.ObjectId)]
     public int Id { get; set; }
-    
-    public int ScreeningId { get; set; }
-    
-    [Column(TypeName = "decimal(6, 2)")]
     public decimal Price { get; set; }
-    
+    public Screening Screening { get; set; }
     public bool Sold { get; set; }
-    
     public bool Archived { get; set; }
     
-    
-    public virtual Screening Screening { get; set; } = null!;
 }

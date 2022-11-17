@@ -1,8 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using Cinema.Models.Interfaces;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace Cinema.Models;
 
-public record Order
+public record Order : IMongoEntity<Order>
 {
     public Order()
         : this(new HashSet<Ticket>())
@@ -13,20 +16,14 @@ public record Order
         Tickets = tickets;
         FinalPrice = tickets.Sum(t => t.Price);
     }
-
+    
+    [BsonId]
+    [BsonRepresentation(BsonType.ObjectId)]
     public int Id { get; set; }
+    public Client Client { get; set; } = null!;
+    public DateTime PlacedTime { get; set; }
 
-    public int ClientId { get; set; }
-
-    public DateTime PlacedTime { get; set; } = DateTime.Now;
-
-    [Column(TypeName = "decimal(6, 2)")]
     public decimal FinalPrice { get; set; }
-
     public bool Success { get; set; }
-    
-
-    public virtual Client Client { get; set; } = null!;
-    
-    public virtual ICollection<Ticket> Tickets { get; set; }
+    public ICollection<Ticket> Tickets { get; set; }
 }

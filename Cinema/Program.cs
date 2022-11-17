@@ -1,10 +1,5 @@
-using Cinema;
-using Cinema.Data;
-using Cinema.Models;
 using Cinema.Services;
 using Cinema.Services.Interfaces;
-using Cinema.Utils;
-using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,15 +10,13 @@ services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 services.AddEndpointsApiExplorer();
 services.AddSwaggerGen();
-services.AddDbContextPool<CinemaContext>(
-    options => options.UseSqlServer(Consts.DatabaseConnectionString)
-);
-services.AddTransient<IClientService, ClientService>();
-services.AddTransient<IAddressService, AddressService>();
-services.AddTransient<IMovieService, MovieService>();
-services.AddTransient<IScreeningService, ScreeningService>();
-services.AddTransient<ITicketService, TicketService>();
-services.AddTransient<IOrderService, OrderService>();
+
+services.AddTransient<IClients, Clients>();
+services.AddTransient<IAddresses, Addresses>();
+services.AddTransient<IMovies, Movies>();
+services.AddTransient<IScreenings, Screenings>();
+services.AddTransient<ITickets, Tickets>();
+services.AddTransient<IOrders, Orders>();
 
 var app = builder.Build();
 

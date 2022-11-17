@@ -1,6 +1,8 @@
-﻿namespace Cinema.Models;
+﻿using Cinema.Models.Interfaces;
 
-public record Address
+namespace Cinema.Models;
+
+public record Address : IMongoEntity<Address>
 {
     public int Id { get; set; }
     

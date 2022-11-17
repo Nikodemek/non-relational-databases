@@ -9,23 +9,23 @@ namespace Cinema.Controllers;
 public class OrderController : ControllerBase
 {
     private readonly ILogger<OrderController> _logger;
-    private readonly IOrderService _orderService;
+    private readonly IOrders _orders;
 
-    public OrderController(ILogger<OrderController> logger, IOrderService orderService)
+    public OrderController(ILogger<OrderController> logger, IOrders orders)
     {
         _logger = logger;
-        _orderService = orderService;
+        _orders = orders;
     }
     
     [HttpGet]
-    public IEnumerable<Order> GetAll() => _orderService.GetAll();
+    public async Task<IEnumerable<Order>> GetAll() => await _orders.GetAllAsync();
 
     [HttpGet("{id:int}")]
-    public Order? Get(int id) => _orderService.Get(id);
+    public async Task<Order> Get(int id) => await _orders.GetAsync(id);
 
     [HttpPost("Register")]
-    public Order? Register(Order newTicket) => _orderService.Create(newTicket);
+    public async Task Register(Order newTicket) => await _orders.CreateAsync(newTicket);
 
     [HttpPost("Place/{clientId:int}")]
-    public Order? Place(int clientId, [FromBody] int[] ticketIds) => _orderService.Place(clientId, ticketIds);
+    public async Task<Order> Place(int clientId, [FromBody] int[] ticketIds) => await _orders.PlaceAsync(clientId, ticketIds);
 }
