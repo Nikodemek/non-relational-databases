@@ -36,9 +36,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-Console.WriteLine("FINISHED SETUP");
 var testData = app.Services.GetService<TestData>();
-Console.WriteLine("INSERTING DATA");
 testData?.InsertData();
 
 app.Run();

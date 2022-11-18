@@ -5,7 +5,7 @@ namespace Cinema.Tests;
 
 public static class DatabasesManager
 {
-    private const string ConnectionString = "mongodb://localhost:27017";
+    private const string ConnectionString = "mongodb://localhost:27018";
     private const string DatabaseBaseName = "Cinema";
     
     private static readonly IMongoClient Client = new MongoClient(ConnectionString);

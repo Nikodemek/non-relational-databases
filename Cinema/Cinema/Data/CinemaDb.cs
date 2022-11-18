@@ -5,7 +5,7 @@ namespace Cinema.Data;
 
 public static class CinemaDb
 {
-    private const string ConnectionString = "mongodb://localhost:27017";
+    private const string ConnectionString = "mongodb://localhost:27018";
     private const string DatabaseName = "Cinema";
 
     public static IMongoDatabase Database
