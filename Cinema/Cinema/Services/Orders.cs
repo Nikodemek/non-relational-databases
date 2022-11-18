@@ -1,13 +1,11 @@
-﻿using System.Transactions;
-using Cinema.Models;
+﻿using Cinema.Models;
 using Cinema.Services.Interfaces;
 using Cinema.Utils;
-using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace Cinema.Services;
 
-public class Orders : Commons<Orders, Order>, IOrders
+public sealed class Orders : Commons<Orders, Order>, IOrders
 {
     private readonly IClients _clients;
     private readonly ITickets _tickets;
@@ -21,14 +19,14 @@ public class Orders : Commons<Orders, Order>, IOrders
     public async Task<Order> PlaceAsync(string clientId, string[] ticketIds)
     {
         var ticketsCursor = await _tickets.GetWithIdsAsync(ticketIds);
-        var tickets = ticketsCursor.ToList();
+        var tickets = await ticketsCursor.ToListAsync();
         var client = await _clients.GetAsync(clientId);
 
         var order = new Order()
         {
             Client = client,
             Tickets = tickets,
-            Success = false
+            Success = false,
         };
         
         if (client.Archived || tickets.Any(t => t.Archived || t.Sold)) return order;
@@ -47,15 +45,11 @@ public class Orders : Commons<Orders, Order>, IOrders
 
         order.Success = true;
 
-        using var scope = new TransactionScope();
-
-        await CreateAsync(order);
-        await _clients.UpdateAsync(client);
-        
-        foreach (var ticket in tickets)
-        {
-            await _tickets.UpdateAsync(ticket);
-        }
+        await Task.WhenAll(tickets
+            .Select(t => _tickets.UpdateAsync(t))
+            .Append(CreateAsync(order))
+            .Append(_clients.UpdateAsync(client))
+        );
         
         return order;
     }

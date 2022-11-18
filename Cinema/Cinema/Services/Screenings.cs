@@ -3,5 +3,5 @@ using Cinema.Services.Interfaces;
 
 namespace Cinema.Services;
 
-public class Screenings : Commons<Screenings, Screening>, IScreenings
+public sealed class Screenings : Commons<Screenings, Screening>, IScreenings
 { }

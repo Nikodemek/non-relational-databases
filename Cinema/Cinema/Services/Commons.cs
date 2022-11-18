@@ -9,11 +9,11 @@ public abstract class Commons<TCollection, TEntity> : MongoCollection<TCollectio
     where TCollection : MongoCollection<TCollection, TEntity>
     where TEntity : IMongoEntity<TEntity>
 {
-    public async Task<List<TEntity>> GetAllAsync()
+    public Task<List<TEntity>> GetAllAsync()
     {
-        var cursor = await Collection
-            .FindAsync(_ => true);
-        return cursor.ToList();
+        return Collection
+            .Find(_ => true)
+            .ToListAsync();
     }
 
     public Task<TEntity> GetAsync(string id)

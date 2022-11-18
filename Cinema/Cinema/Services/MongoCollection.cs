@@ -4,7 +4,7 @@ using MongoDB.Driver;
 
 namespace Cinema.Services;
 
-public class MongoCollection<TCollection, TEntity>
+public abstract class MongoCollection<TCollection, TEntity>
     where TCollection : MongoCollection<TCollection, TEntity>
     where TEntity : IMongoEntity<TEntity>
 {

@@ -41,11 +41,11 @@ public static class DatabasesManager
         DatabaseNames.TryRemove(id, out _);
     }
 
-    public static void DeleteDatabase(string databasename)
+    public static void DeleteDatabase(string databaseName)
     {
         lock (clientLock)
         {
-            Client.DropDatabase(databasename);
+            Client.DropDatabase(databaseName);
         }
     }
     
