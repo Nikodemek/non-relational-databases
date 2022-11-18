@@ -1,5 +1,4 @@
-﻿using Cinema.Models;
-using MongoDB.Driver;
+﻿using MongoDB.Driver;
 
 namespace Cinema.Data;
 
