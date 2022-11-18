@@ -5,5 +5,5 @@ namespace Cinema.Services.Interfaces;
 
 public interface IOrders : ICommonService<Order>
 {
-    Task<Order> PlaceAsync(ObjectId clientId, ObjectId[] ticketIds);
+    Task<Order> PlaceAsync(string clientId, string[] ticketIds);
 }

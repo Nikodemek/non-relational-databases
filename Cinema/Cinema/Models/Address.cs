@@ -8,7 +8,7 @@ public sealed record Address : IMongoEntity<Address>
 {
     [BsonId]
     [BsonRepresentation(BsonType.ObjectId)]
-    public ObjectId Id { get; set; }
+    public string Id { get; set; }
     public string? Country { get; set; }
     
     public string? City { get; set; }

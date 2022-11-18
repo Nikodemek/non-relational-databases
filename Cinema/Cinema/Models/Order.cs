@@ -19,7 +19,7 @@ public sealed record Order : IMongoEntity<Order>
     
     [BsonId]
     [BsonRepresentation(BsonType.ObjectId)]
-    public ObjectId Id { get; set; }
+    public string Id { get; set; }
     public Client? Client { get; set; }
     public DateTime PlacedTime { get; set; }
     public decimal FinalPrice { get; set; }

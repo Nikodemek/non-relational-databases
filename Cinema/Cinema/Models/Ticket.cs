@@ -8,7 +8,7 @@ public sealed record Ticket : IMongoEntity<Ticket>
 {
     [BsonId]
     [BsonRepresentation(BsonType.ObjectId)]
-    public ObjectId Id { get; set; }
+    public string Id { get; set; }
     public decimal Price { get; set; }
     public Screening? Screening { get; set; }
     public bool Sold { get; set; }

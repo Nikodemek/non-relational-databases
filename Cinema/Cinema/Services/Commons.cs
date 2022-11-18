@@ -16,7 +16,7 @@ public abstract class Commons<TCollection, TEntity> : MongoCollection<TCollectio
         return cursor.ToList();
     }
 
-    public Task<TEntity> GetAsync(ObjectId id)
+    public Task<TEntity> GetAsync(string id)
     {
         return Collection
             .Find(e => e.Id == id)
@@ -29,7 +29,7 @@ public abstract class Commons<TCollection, TEntity> : MongoCollection<TCollectio
             .InsertOneAsync(entity);
     }
 
-    public Task<DeleteResult> RemoveAsync(ObjectId id)
+    public Task<DeleteResult> RemoveAsync(string id)
     {
         return Collection
             .DeleteOneAsync(e => e.Id == id);

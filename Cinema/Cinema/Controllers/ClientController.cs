@@ -23,7 +23,7 @@ public class ClientController : ControllerBase
     public async Task<IEnumerable<Client>> GetAll() => await _clients.GetAllAsync();
 
     [HttpGet("{id}")]
-    public async Task<Client> Get(ObjectId id) => await _clients.GetAsync(id);
+    public async Task<Client> Get(string id) => await _clients.GetAsync(id);
 
     [HttpPost("Register")]
     public async Task Register([FromBody] Client newClient) => await _clients.CreateAsync(newClient);
@@ -32,9 +32,9 @@ public class ClientController : ControllerBase
     public async Task Update([FromBody] Client updatedClient) => await _clients.UpdateAsync(updatedClient);
 
     [HttpPut("Archive/{id}")]
-    public async Task<ReplaceOneResult> Archive(ObjectId id) => await _clients.ArchiveAsync(id);
+    public async Task<ReplaceOneResult> Archive(string id) => await _clients.ArchiveAsync(id);
 
     [HttpDelete("Remove/{id}")]
-    public async Task Remove(ObjectId id) => await _clients.RemoveAsync(id);
+    public async Task Remove(string id) => await _clients.RemoveAsync(id);
 
 }

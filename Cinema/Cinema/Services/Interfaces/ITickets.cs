@@ -6,7 +6,7 @@ namespace Cinema.Services.Interfaces;
 
 public interface ITickets : ICommonService<Ticket>
 {
-    Task<IAsyncCursor<Ticket>> GetWithIdsAsync(ICollection<ObjectId> ids);
+    Task<IAsyncCursor<Ticket>> GetWithIdsAsync(ICollection<string> ids);
     Task<ReplaceOneResult> UpdateAsync(Ticket ticket);
-    Task<ReplaceOneResult> ArchiveAsync(ObjectId id);
+    Task<ReplaceOneResult> ArchiveAsync(string id);
 }

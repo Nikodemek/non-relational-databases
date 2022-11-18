@@ -18,7 +18,7 @@ public class Orders : Commons<Orders, Order>, IOrders
         _tickets = tickets;
     }
 
-    public async Task<Order> PlaceAsync(ObjectId clientId, ObjectId[] ticketIds)
+    public async Task<Order> PlaceAsync(string clientId, string[] ticketIds)
     {
         var ticketsCursor = await _tickets.GetWithIdsAsync(ticketIds);
         var tickets = ticketsCursor.ToList();

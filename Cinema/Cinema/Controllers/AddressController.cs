@@ -22,11 +22,11 @@ public class AddressController : ControllerBase
     public async Task<IEnumerable<Address>> GetAll() => await _addresses.GetAllAsync();
 
     [HttpGet("{id}")]
-    public async Task<Address> Get(ObjectId id) => await _addresses.GetAsync(id);
+    public async Task<Address> Get(string id) => await _addresses.GetAsync(id);
 
     [HttpPost("Register")]
     public async Task Register([FromBody] Address newAddress) => await _addresses.CreateAsync(newAddress);
     
     [HttpDelete("Remove/{id}")]
-    public async Task Remove(ObjectId id) => await _addresses.RemoveAsync(id);
+    public async Task Remove(string id) => await _addresses.RemoveAsync(id);
 }

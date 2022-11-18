@@ -22,11 +22,11 @@ public class TicketController : ControllerBase
     public async Task<IEnumerable<Ticket>> GetAll() => await _tickets.GetAllAsync();
 
     [HttpGet("{id}")]
-    public async Task<Ticket> Get(ObjectId id) => await _tickets.GetAsync(id);
+    public async Task<Ticket> Get(string id) => await _tickets.GetAsync(id);
 
     [HttpPost("Register")]
     public async Task Register([FromBody] Ticket newTicket) => await _tickets.CreateAsync(newTicket);
     
     [HttpDelete("Remove/{id}")]
-    public async Task Remove(ObjectId id) => await _tickets.RemoveAsync(id);
+    public async Task Remove(string id) => await _tickets.RemoveAsync(id);
 }

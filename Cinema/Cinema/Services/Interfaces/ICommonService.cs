@@ -6,7 +6,7 @@ namespace Cinema.Services.Interfaces;
 public interface ICommonService<T>
 {
     Task<List<T>> GetAllAsync();
-    Task<T> GetAsync(ObjectId id);
+    Task<T> GetAsync(string id);
     Task CreateAsync(T entity);
-    Task<DeleteResult> RemoveAsync(ObjectId id);
+    Task<DeleteResult> RemoveAsync(string id);
 }

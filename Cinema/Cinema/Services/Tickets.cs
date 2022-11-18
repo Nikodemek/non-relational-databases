@@ -9,7 +9,7 @@ namespace Cinema.Services;
 
 public class Tickets : Commons<Tickets, Ticket>, ITickets
 {
-    public Task<IAsyncCursor<Ticket>> GetWithIdsAsync(ICollection<ObjectId> ids)
+    public Task<IAsyncCursor<Ticket>> GetWithIdsAsync(ICollection<string> ids)
     {
         return Collection
             .FindAsync(t => ids.Contains(t.Id));
@@ -21,7 +21,7 @@ public class Tickets : Commons<Tickets, Ticket>, ITickets
             .ReplaceOneAsync(t => t.Id == ticket.Id, ticket);
     }
 
-    public async Task<ReplaceOneResult> ArchiveAsync(ObjectId id)
+    public async Task<ReplaceOneResult> ArchiveAsync(string id)
     {
         var ticket = await GetAsync(id);
         return await Collection

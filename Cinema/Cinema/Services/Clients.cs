@@ -13,7 +13,7 @@ public class Clients : Commons<Clients, Client>, IClients
             .ReplaceOneAsync(c => c.Id == client.Id, client);
     }
 
-    public async Task<ReplaceOneResult> ArchiveAsync(ObjectId id)
+    public async Task<ReplaceOneResult> ArchiveAsync(string id)
     {
         var client = await GetAsync(id);
         return await Collection
