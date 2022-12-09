@@ -1,5 +1,7 @@
 ﻿using Cinema.Models;
 using Cinema.Services.Interfaces;
+using Cinema.Utils;
+using MongoDB.Bson;
 
 namespace Cinema;
 
@@ -78,12 +80,11 @@ public class TestData
 
     public async void InsertData()
     {
-        await _addresses.CreateAsync(Address1);
-        await _clients.CreateAsync(Client1);
-        await _screenings.CreateAsync(Screening1);
-        await _movies.CreateAsync(Movie1);
-        await _tickets.CreateAsync(Ticket1);
-        await _tickets.CreateAsync(Ticket2);
-        await _orders.CreateAsync(Order1);
+        await _addresses.CreateAsync(Address1 with {Id = Generate.BsonId()});
+        await _clients.CreateAsync(Client1 with {Id = Generate.BsonId()});
+        await _screenings.CreateAsync(Screening1 with {Id = Generate.BsonId()});
+        await _movies.CreateAsync(Movie1 with {Id = Generate.BsonId()});
+        await _tickets.CreateAsync(Ticket2 with {Id = Generate.BsonId()});
+        await _orders.CreateAsync(Order1 with {Id = Generate.BsonId()});
     }
 }

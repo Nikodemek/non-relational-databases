@@ -5,7 +5,7 @@ using MongoDB.Driver;
 
 namespace Cinema.Services;
 
-public sealed class Clients : Commons<Clients, Client>, IClients
+public sealed class Clients : MongoCommons<Clients, Client>, IClients
 {
     public Task<ReplaceOneResult> UpdateAsync(Client client)
     {

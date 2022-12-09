@@ -2,5 +2,5 @@
 
 namespace Cinema.Services.Interfaces;
 
-public interface IMovies : ICommonService<Movie>
+public interface IMovies : ICommons<Movie>
 { }

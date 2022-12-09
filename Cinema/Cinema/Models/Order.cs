@@ -1,11 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using Cinema.Models.Interfaces;
+﻿using Cinema.Models.Interfaces;
+using Cinema.Utils;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace Cinema.Models;
 
-public sealed record Order : IMongoEntity<Order>
+public sealed record Order : IEntity<Order>
 {
     public Order()
         : this(new HashSet<Ticket>())
@@ -19,7 +19,7 @@ public sealed record Order : IMongoEntity<Order>
     
     [BsonId]
     [BsonRepresentation(BsonType.ObjectId)]
-    public string Id { get; set; }
+    public string Id { get; set; } = Generate.BsonId();
     public Client? Client { get; set; }
     public DateTime PlacedTime { get; set; }
     public decimal FinalPrice { get; set; }

@@ -7,7 +7,7 @@ using MongoDB.Driver;
 
 namespace Cinema.Services;
 
-public sealed class Tickets : Commons<Tickets, Ticket>, ITickets
+public sealed class Tickets : MongoCommons<Tickets, Ticket>, ITickets
 {
     public Task<IAsyncCursor<Ticket>> GetWithIdsAsync(ICollection<string> ids)
     {

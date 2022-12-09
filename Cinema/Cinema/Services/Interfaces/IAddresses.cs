@@ -2,5 +2,5 @@
 
 namespace Cinema.Services.Interfaces;
 
-public interface IAddresses : ICommonService<Address>
+public interface IAddresses : ICommons<Address>
 { }

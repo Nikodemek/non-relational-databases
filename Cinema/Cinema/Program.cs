@@ -20,6 +20,11 @@ services
     .AddTransient<ITickets, Tickets>()
     .AddTransient<IOrders, Orders>();
 services.AddSingleton<TestData>();
+services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = "localhost:6379";
+    options.InstanceName = "Cinema_"; 
+});
 
 var app = builder.Build();
 
@@ -36,7 +41,10 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-/*var testData = app.Services.GetService<TestData>();
-testData?.InsertData();*/
+var testData = app.Services.GetService<TestData>();
+testData?.InsertData();
+testData?.InsertData();
+testData?.InsertData();
+testData?.InsertData();
 
 app.Run();

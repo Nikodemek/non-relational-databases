@@ -5,5 +5,5 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Cinema.Services;
 
-public class Addresses : Commons<Addresses, Address>, IAddresses
+public class Addresses : MongoCommons<Addresses, Address>, IAddresses
 { }

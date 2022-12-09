@@ -5,7 +5,7 @@ using MongoDB.Driver;
 
 namespace Cinema.Services;
 
-public sealed class Orders : Commons<Orders, Order>, IOrders
+public sealed class Orders : MongoCommons<Orders, Order>, IOrders
 {
     private readonly IClients _clients;
     private readonly ITickets _tickets;
