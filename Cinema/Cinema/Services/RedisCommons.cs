@@ -12,6 +12,7 @@ public class RedisCommons<TEntity> : ICommons<TEntity>
     
     private readonly IDistributedCache _cache;
     private (HashSet<string> Set, string Name) _ids;
+    private readonly object _lock = new();
     
     public RedisCommons(IDistributedCache cache, string collectionName)
     {
@@ -112,12 +113,27 @@ public class RedisCommons<TEntity> : ICommons<TEntity>
 
     private async Task FetchIdsSet()
     {
-        _ids.Set = await _cache.GetRecordAsync<HashSet<string>>(_ids.Name) ?? new HashSet<string>();
+        var collection = await _cache.GetRecordAsync<ICollection<string>>(_ids.Name);
+        lock (_lock)
+        {
+            _ids.Set = collection is not null
+                ? new HashSet<string>(collection)
+                : new HashSet<string>();
+        }
     }
 
     private async Task UpdateIdsSet()
     {
+        string name;
+        string[] setArray;
+
+        lock (_lock)
+        {
+            name = _ids.Name;
+            setArray = _ids.Set.ToArray();
+        }
+        
         using CancellationTokenSource cancellationTokenSource = new(RedisTimeoutMilliseconds);
-        await _cache.SetRecordAsync<HashSet<string>>(_ids.Name, _ids.Set, token: cancellationTokenSource.Token);
+        await _cache.SetRecordAsync<ICollection<string>>(name, setArray, token: cancellationTokenSource.Token);
     }
 }

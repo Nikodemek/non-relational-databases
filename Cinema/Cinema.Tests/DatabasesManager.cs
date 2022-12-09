@@ -6,7 +6,7 @@ namespace Cinema.Tests;
 public static class DatabasesManager
 {
     public const string ConnectionString = "mongodb://localhost:27018";
-    public const string DatabasebaseName = "Cinema";
+    public const string DatabaseName = "Test-Cinema";
     
     private static readonly IMongoClient Client = new MongoClient(ConnectionString);
     private static readonly ConcurrentDictionary<int, string> DatabaseNames = new();
@@ -49,5 +49,5 @@ public static class DatabasesManager
         }
     }
     
-    private static string GetDatabaseName(int count) => $"TEST-{DatabasebaseName}-{count}";
+    private static string GetDatabaseName(int count) => $"TEST-{DatabaseName}-{count}";
 }

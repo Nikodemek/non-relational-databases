@@ -16,12 +16,12 @@ services.AddSwaggerGen();
 
 CinemaDb.SetUpConnection(config);
 services
-    .AddTransient<IClients, Clients>()
-    .AddTransient<IAddresses, Addresses>()
-    .AddTransient<IMovies, Movies>()
-    .AddTransient<IScreenings, Screenings>()
-    .AddTransient<ITickets, Tickets>()
-    .AddTransient<IOrders, Orders>();
+    .AddSingleton<IClients, Clients>()
+    .AddSingleton<IAddresses, Addresses>()
+    .AddSingleton<IMovies, Movies>()
+    .AddSingleton<IScreenings, Screenings>()
+    .AddSingleton<ITickets, Tickets>()
+    .AddSingleton<IOrders, Orders>();
 services.AddSingleton<TestData>();
 services.AddStackExchangeRedisCache(options =>
 {
@@ -44,7 +44,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-/*var testData = app.Services.GetService<TestData>();
-testData?.InsertData();*/
+var testData = app.Services.GetService<TestData>();
+testData?.InsertData();
 
 app.Run();

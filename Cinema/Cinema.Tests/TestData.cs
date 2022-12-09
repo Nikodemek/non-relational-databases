@@ -10,7 +10,7 @@ public class TestData
     public static readonly RedisCacheOptions RedisCacheOptions = new ()
     {
         Configuration = "localhost:6379",
-        InstanceName = "Cinema_Tests_",
+        InstanceName = "Test_Cinema_",
     };
     
     public static readonly Movie Movie1 = new()

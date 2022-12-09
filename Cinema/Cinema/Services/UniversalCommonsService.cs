@@ -269,6 +269,7 @@ public abstract class UniversalCommonsService<TEntity> : ICommons<TEntity>, IInv
             {
                 _logger.LogWarning("Redis is offline!");
             }
+            _logger.LogDebug("Redis Online");
 
             bool isOnline = result == InstanceGuid;
             lock (_lock)

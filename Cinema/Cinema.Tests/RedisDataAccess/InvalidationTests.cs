@@ -20,7 +20,7 @@ public class InvalidationTests
     [OneTimeSetUp]
     public void OneTimeSetup()
     {
-        CinemaDb.SetUpConnection(DatabasesManager.ConnectionString, DatabasesManager.DatabasebaseName);
+        CinemaDb.SetUpConnection(DatabasesManager.ConnectionString, DatabasesManager.DatabaseName);
         
         _cache = new RedisCache(TestData.RedisCacheOptions);
         _addressService = new Addresses(NullLogger<Addresses>.Instance, _cache);
