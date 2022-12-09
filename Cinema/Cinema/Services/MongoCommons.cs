@@ -63,4 +63,9 @@ public class MongoCommons<TEntity> : ICommons<TEntity>
         DeleteResult result = await Collection.DeleteOneAsync(e => e.Id == id);
         return result.IsAcknowledged && result.DeletedCount > 0;
     }
+
+    public async Task DeleteAllAsync()
+    {
+        await Collection.DeleteManyAsync(x => true);
+    }
 }

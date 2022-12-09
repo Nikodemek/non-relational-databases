@@ -222,11 +222,13 @@ public abstract class UniversalCommonsService<TEntity> : ICommons<TEntity>, IInv
         return deletionResult;
     }
 
-    public async Task DeleteAllAsync()
+    public async Task DeleteAllAsync(bool fullReset = false)
     {
         if (!UseRedis) return;
         
         await _redisCommons!.DeleteAllAsync();
+
+        if (fullReset) await _mongoCommons.DeleteAllAsync();
     }
 
     public async Task RestoreAllAsync()

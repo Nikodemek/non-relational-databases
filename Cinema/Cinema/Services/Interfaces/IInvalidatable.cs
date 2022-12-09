@@ -1,9 +1,7 @@
-﻿using Cinema.Models.Interfaces;
-
-namespace Cinema.Services.Interfaces;
+﻿namespace Cinema.Services.Interfaces;
 
 public interface IInvalidatable
 {
-    Task DeleteAllAsync();
+    Task DeleteAllAsync(bool fullReset = false);
     Task RestoreAllAsync();
 }
