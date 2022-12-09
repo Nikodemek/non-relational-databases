@@ -5,7 +5,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace Cinema.Models;
 
-public sealed record Movie : IEntity<Movie>
+public sealed record Movie : IEntity
 {
     [BsonId]
     [BsonRepresentation(BsonType.ObjectId)]

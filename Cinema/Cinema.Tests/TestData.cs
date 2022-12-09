@@ -1,11 +1,18 @@
 ﻿using System;
 using Cinema.Models;
 using Cinema.Services.Interfaces;
+using Microsoft.Extensions.Caching.StackExchangeRedis;
 
 namespace Cinema.Tests;
 
 public class TestData
 {
+    public static readonly RedisCacheOptions RedisCacheOptions = new ()
+    {
+        Configuration = "localhost:6379",
+        InstanceName = "Cinema_Tests_",
+    };
+    
     public static readonly Movie Movie1 = new()
     {
         Title = "Piłaci z Kałaibów",

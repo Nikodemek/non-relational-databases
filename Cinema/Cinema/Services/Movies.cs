@@ -4,9 +4,9 @@ using Microsoft.Extensions.Caching.Distributed;
 
 namespace Cinema.Services;
 
-public sealed class Movies : CachedCommons<Movies, Movie>, IMovies
+public sealed class Movies : UniversalCommonsService<Movie>, IMovies
 {
-    public Movies(IDistributedCache cache, MongoCommons<Movies, Movie>? mongoCommons = default)
-        : base(cache, mongoCommons)
+    public Movies(ILogger<Movies> logger, IDistributedCache cache)
+        : base(logger, cache)
     { }
 }

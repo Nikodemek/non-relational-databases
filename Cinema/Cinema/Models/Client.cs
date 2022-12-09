@@ -5,7 +5,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace Cinema.Models;
 
-public sealed record Client() : IEntity<Client>
+public sealed record Client() : IEntity
 {
     [BsonId]
     [BsonRepresentation(BsonType.ObjectId)]

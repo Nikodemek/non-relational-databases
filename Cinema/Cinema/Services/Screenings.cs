@@ -4,9 +4,9 @@ using Microsoft.Extensions.Caching.Distributed;
 
 namespace Cinema.Services;
 
-public sealed class Screenings : CachedCommons<Screenings, Screening>, IScreenings
+public sealed class Screenings : UniversalCommonsService<Screening>, IScreenings
 {
-    public Screenings(IDistributedCache cache, MongoCommons<Screenings, Screening>? mongoCommons = default)
-        : base(cache, mongoCommons)
+    public Screenings(ILogger<Screenings> logger, IDistributedCache cache)
+        : base(logger, cache)
     { }
 }

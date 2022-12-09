@@ -5,8 +5,20 @@ namespace Cinema.Data;
 
 public static class CinemaDb
 {
-    private const string ConnectionString = "mongodb://localhost:27018";
-    private const string DatabaseName = "Cinema";
+    private static string? _connectionString;
+    private static string? _databaseName;
+
+    public static void SetUpConnection(IConfiguration configuration)
+    {
+        _connectionString = configuration.GetConnectionString("Mongo.Configuration");
+        _databaseName = configuration.GetConnectionString("Mongo.DatabaseName");
+    }
+    
+    public static void SetUpConnection(string connectionString, string databaseName)
+    {
+        _connectionString = connectionString;
+        _databaseName = databaseName;
+    }
 
     public static IMongoDatabase Database
     {
@@ -14,8 +26,11 @@ public static class CinemaDb
         {
             if (_database is not null) return _database;
 
-            var client = new MongoClient(ConnectionString);
-            return _database = client.GetDatabase(DatabaseName);
+            if (_connectionString is null || _databaseName is null)
+                throw new Exception("MongoDB connection info was not initialized!");
+
+            var client = new MongoClient(_connectionString);
+            return _database = client.GetDatabase(_databaseName);
         }
     }
 

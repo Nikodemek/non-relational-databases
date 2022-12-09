@@ -5,7 +5,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace Cinema.Models;
 
-public sealed record Order : IEntity<Order>
+public sealed record Order : IEntity
 {
     public Order()
         : this(new HashSet<Ticket>())

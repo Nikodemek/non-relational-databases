@@ -2,29 +2,25 @@
 using Cinema.Models;
 using Cinema.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Distributed;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace Cinema.Services;
 
-public sealed class Tickets : MongoCommons<Tickets, Ticket>, ITickets
+public sealed class Tickets : UniversalCommonsService<Ticket>, ITickets
 {
-    public Task<IAsyncCursor<Ticket>> GetWithIdsAsync(ICollection<string> ids)
+    public Tickets(ILogger<Tickets> logger)
+        : base(logger, null)
+    { }
+
+    public async Task UpdateAsync(Ticket ticket)
     {
-        return Collection
-            .FindAsync(t => ids.Contains(t.Id));
+        await UpdateAsync(ticket.Id, ticket);
     }
 
-    public Task<ReplaceOneResult> UpdateAsync(Ticket ticket)
+    public async Task ArchiveAsync(string id)
     {
-        return Collection
-            .ReplaceOneAsync(t => t.Id == ticket.Id, ticket);
-    }
-
-    public async Task<ReplaceOneResult> ArchiveAsync(string id)
-    {
-        var ticket = await GetAsync(id);
-        return await Collection
-            .ReplaceOneAsync(t => t.Id == id, ticket with {Archived = true});
+        await UpdateAsync(id, ticket => ticket.Archived = true);
     }
 }

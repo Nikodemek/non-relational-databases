@@ -4,7 +4,6 @@ using Cinema.Models;
 using FluentAssertions;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.StackExchangeRedis;
-using StackExchange.Redis;
 
 namespace Cinema.Tests.RedisDataAccess;
 
@@ -21,11 +20,7 @@ public class CachedCommonsTest
     [OneTimeSetUp]
     public void OneTimeSetup()
     {
-        _cache = new RedisCache(new RedisCacheOptions()
-        {
-            Configuration = "localhost:6379",
-            InstanceName = "Cinema_",
-        });
+        _cache = new RedisCache(TestData.RedisCacheOptions);
     }
 
     [Test, Order(0)]

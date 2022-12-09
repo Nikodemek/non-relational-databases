@@ -5,7 +5,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace Cinema.Models;
 
-public sealed record Ticket : IEntity<Ticket>
+public sealed record Ticket : IEntity
 {
     [BsonId]
     [BsonRepresentation(BsonType.ObjectId)]

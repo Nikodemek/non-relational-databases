@@ -1,37 +1,66 @@
-﻿using Cinema.Models.Interfaces;
+﻿using Cinema.Data;
+using Cinema.Models.Interfaces;
 using Cinema.Services.Interfaces;
-using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace Cinema.Services;
 
-public class MongoCommons<TCollection, TEntity> : MongoCollection<TCollection, TEntity>, ICommons<TEntity>
-    where TCollection : MongoCollection<TCollection, TEntity>
-    where TEntity : IEntity<TEntity>
+public class MongoCommons<TEntity> : ICommons<TEntity>
+    where TEntity : IEntity
 {
-    public virtual Task<List<TEntity>> GetAllAsync()
+    private IMongoCollection<TEntity> Collection => CinemaDb.Database.GetCollection<TEntity>(_collectionName);
+    
+    private readonly string _collectionName;
+    
+    public MongoCommons(string collectionName)
     {
-        return Collection
+        _collectionName = collectionName;
+    }
+
+    public async Task<List<TEntity>> GetAllAsync()
+    {
+        return await Collection
             .Find(_ => true)
             .ToListAsync();
     }
 
-    public virtual Task<TEntity> GetAsync(string id)
+    public async Task<List<TEntity>> GetAllWithIdsAsync(ICollection<string> ids)
     {
-        return Collection
+        var results = await Collection.FindAsync(t => ids.Contains(t.Id));
+        return results.ToList();
+    }
+
+    public async Task<TEntity?> GetAsync(string id)
+    {
+        return await Collection
             .Find(e => e.Id == id)
             .SingleOrDefaultAsync();
     }
 
-    public virtual Task CreateAsync(TEntity entity)
+    public async Task CreateAsync(TEntity entity)
     {
-        return Collection
-            .InsertOneAsync(entity);
+        await Collection.InsertOneAsync(entity);
     }
 
-    public virtual Task<DeleteResult> RemoveAsync(string id)
+    public async Task UpdateAsync(string id, Action<TEntity> modExpr)
     {
-        return Collection
-            .DeleteOneAsync(e => e.Id == id);
+        var entity = await GetAsync(id);
+        if (entity is null) return;
+
+        modExpr(entity);
+
+        await UpdateAsync(id, entity);
+    }
+
+    public async Task UpdateAsync(string id, TEntity entity)
+    {
+        entity.Id = id;
+        await Collection.ReplaceOneAsync(c => c.Id == entity.Id, entity);
+    }
+
+    public async Task<bool> DeleteAsync(string id)
+    {
+        DeleteResult result = await Collection.DeleteOneAsync(e => e.Id == id);
+        return result.IsAcknowledged && result.DeletedCount > 0;
     }
 }
