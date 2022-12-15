@@ -2,5 +2,5 @@
 
 namespace Cinema.Services.Interfaces;
 
-public interface IScreenings : ICommonService<Screening>
+public interface IScreenings : ICommons<Screening>
 { }

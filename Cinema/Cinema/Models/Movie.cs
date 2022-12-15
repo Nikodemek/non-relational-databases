@@ -1,14 +1,15 @@
 ﻿using Cinema.Models.Interfaces;
+using Cinema.Utils;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace Cinema.Models;
 
-public sealed record Movie : IMongoEntity<Movie>
+public sealed record Movie : IEntity
 {
     [BsonId]
     [BsonRepresentation(BsonType.ObjectId)]
-    public string Id { get; set; }
+    public string Id { get; set; } = Generate.BsonId();
     public string? Title { get; set; }
     public int Length { get; set; }
     public AgeCategory AgeCategory { get; set; }

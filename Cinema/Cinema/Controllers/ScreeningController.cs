@@ -22,11 +22,11 @@ public class ScreeningController : ControllerBase
     public async Task<IEnumerable<Screening>> GetAll() => await _screenings.GetAllAsync();
 
     [HttpGet("{id}")]
-    public async Task<Screening> Get(string id) => await _screenings.GetAsync(id);
+    public async Task<Screening?> Get(string id) => await _screenings.GetAsync(id);
 
     [HttpPost("Register")]
     public async Task Register([FromBody] Screening newScreening) => await _screenings.CreateAsync(newScreening);
     
     [HttpDelete("Remove/{id}")]
-    public async Task Remove(string id) => await _screenings.RemoveAsync(id);
+    public async Task Remove(string id) => await _screenings.DeleteAsync(id);
 }

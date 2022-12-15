@@ -2,8 +2,13 @@
 using Cinema.Models;
 using Cinema.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Distributed;
 
 namespace Cinema.Services;
 
-public class Addresses : Commons<Addresses, Address>, IAddresses
-{ }
+public class Addresses : UniversalCommonsService<Address>, IAddresses
+{
+    public Addresses(ILogger<Addresses> logger, IDistributedCache cache)
+        : base(logger, cache)
+    { }
+}

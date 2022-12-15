@@ -4,8 +4,8 @@ using MongoDB.Driver;
 
 namespace Cinema.Services.Interfaces;
 
-public interface IClients : ICommonService<Client>
+public interface IClients : ICommons<Client>
 {
-    Task<ReplaceOneResult> UpdateAsync(Client client);
-    Task<ReplaceOneResult> ArchiveAsync(string id);
+    Task UpdateAsync(Client client);
+    Task ArchiveAsync(string id);
 }

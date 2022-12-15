@@ -1,22 +1,21 @@
 ﻿using Cinema.Models;
 using Cinema.Services.Interfaces;
-using MongoDB.Bson;
-using MongoDB.Driver;
 
 namespace Cinema.Services;
 
-public sealed class Clients : Commons<Clients, Client>, IClients
+public sealed class Clients : UniversalCommonsService<Client>, IClients
 {
-    public Task<ReplaceOneResult> UpdateAsync(Client client)
+    public Clients(ILogger<Clients> logger)
+        : base(logger, null)
+    { }
+    
+    public async Task UpdateAsync(Client client)
     {
-        return Collection
-            .ReplaceOneAsync(c => c.Id == client.Id, client);
+        await UpdateAsync(client.Id, client);
     }
 
-    public async Task<ReplaceOneResult> ArchiveAsync(string id)
+    public async Task ArchiveAsync(string id)
     {
-        var client = await GetAsync(id);
-        return await Collection
-            .ReplaceOneAsync(c => c.Id == id, client with {Archived = true});
+        await UpdateAsync(id, client => client.Archived = true);
     }
 }

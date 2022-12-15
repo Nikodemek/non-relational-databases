@@ -1,26 +1,30 @@
 ﻿using Cinema.Models;
 using Cinema.Services.Interfaces;
 using Cinema.Utils;
-using MongoDB.Driver;
 
 namespace Cinema.Services;
 
-public sealed class Orders : Commons<Orders, Order>, IOrders
+public sealed class Orders : UniversalCommonsService<Order>, IOrders
 {
+    private readonly ILogger<Orders> _logger;
     private readonly IClients _clients;
     private readonly ITickets _tickets;
     
-    public Orders(IClients clients, ITickets tickets)
+    public Orders(ILogger<Orders> logger, IClients clients, ITickets tickets)
+        : base(logger, null)
     {
+        _logger = logger;
         _clients = clients;
         _tickets = tickets;
     }
 
     public async Task<Order> PlaceAsync(string clientId, string[] ticketIds)
     {
-        var ticketsCursor = await _tickets.GetWithIdsAsync(ticketIds);
-        var tickets = await ticketsCursor.ToListAsync();
-        var client = await _clients.GetAsync(clientId);
+        List<Ticket> tickets = await _tickets.GetAllWithIdsAsync(ticketIds);
+        Client? client = await _clients.GetAsync(clientId);
+
+        if (client is null)
+            throw new Exception($"Client with id {clientId} does not exist!");
 
         var order = new Order()
         {

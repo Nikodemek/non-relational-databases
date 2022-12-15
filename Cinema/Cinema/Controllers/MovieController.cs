@@ -22,11 +22,11 @@ public class MovieController : ControllerBase
     public async Task<IEnumerable<Movie>> GetAll() => await _movies.GetAllAsync();
 
     [HttpGet("{id}")]
-    public async Task<Movie> Get(string id) => await _movies.GetAsync(id);
+    public async Task<Movie?> Get(string id) => await _movies.GetAsync(id);
 
     [HttpPost("Register")]
     public async Task Register([FromBody] Movie newMovie) => await _movies.CreateAsync(newMovie);
     
     [HttpDelete("Remove/{id}")]
-    public async Task Remove(string id) => await _movies.RemoveAsync(id);
+    public async Task Remove(string id) => await _movies.DeleteAsync(id);
 }
