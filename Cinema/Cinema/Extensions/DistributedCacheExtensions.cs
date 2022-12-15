@@ -43,7 +43,7 @@ public static class DistributedCacheExtensions
     
     public static async Task<T?[]> GetRecordsAsync<T>(
         this IDistributedCache cache,
-        ICollection<string> keys,
+        IEnumerable<string> keys,
         CancellationToken token = default)
     {
         var tasks = keys.Select(key => cache.GetRecordAsync<T>(key, token));
@@ -64,7 +64,7 @@ public static class DistributedCacheExtensions
 
     public static async Task RemoveRecordsAsync<T>(
         this IDistributedCache cache,
-        ICollection<string> keys,
+        IEnumerable<string> keys,
         CancellationToken token = default)
     {
         var tasks = keys.Select(key => cache.RemoveRecordAsync<T>(key, token));

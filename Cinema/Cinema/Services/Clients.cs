@@ -1,8 +1,5 @@
 ﻿using Cinema.Models;
 using Cinema.Services.Interfaces;
-using Microsoft.Extensions.Caching.Distributed;
-using MongoDB.Bson;
-using MongoDB.Driver;
 
 namespace Cinema.Services;
 

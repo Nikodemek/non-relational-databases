@@ -20,8 +20,8 @@ public sealed class Orders : UniversalCommonsService<Order>, IOrders
 
     public async Task<Order> PlaceAsync(string clientId, string[] ticketIds)
     {
-        var tickets = await _tickets.GetAllWithIdsAsync(ticketIds);
-        var client = await _clients.GetAsync(clientId);
+        List<Ticket> tickets = await _tickets.GetAllWithIdsAsync(ticketIds);
+        Client? client = await _clients.GetAsync(clientId);
 
         if (client is null)
             throw new Exception($"Client with id {clientId} does not exist!");
