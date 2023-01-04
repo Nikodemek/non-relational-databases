@@ -1,5 +1,6 @@
 ﻿using Cassandra.Mapping;
 using Cinema.Models;
+using Cinema.Models.Interfaces;
 
 namespace Cinema.Mappers;
 
@@ -15,7 +16,7 @@ public class CassandraMappings : Mappings
         CreateForTicket();
     }
 
-    public Map<Address> CreateForAddress()
+    private Map<Address> CreateForAddress()
     {
         return For<Address>().TableName(nameof(Address))
             .Column(x => x.Id)
@@ -26,7 +27,7 @@ public class CassandraMappings : Mappings
             .PartitionKey(x => x.Id);
     }
 
-    public Map<Client> CreateForClient()
+    private Map<Client> CreateForClient()
     {
         return For<Client>().TableName(nameof(Client))
             .Column(x => x.Id)
@@ -40,7 +41,7 @@ public class CassandraMappings : Mappings
             .PartitionKey(x => x.Id);
     }
 
-    public Map<Movie> CreateForMovie()
+    private Map<Movie> CreateForMovie()
     {
         return For<Movie>().TableName(nameof(Movie))
             .Column(x => x.Id)
@@ -50,7 +51,7 @@ public class CassandraMappings : Mappings
             .PartitionKey(x => x.Id);
     }
 
-    public Map<Order> CreateForOrder()
+    private Map<Order> CreateForOrder()
     {
         return For<Order>().TableName(nameof(Order))
             .Column(x => x.Id)
@@ -62,7 +63,7 @@ public class CassandraMappings : Mappings
             .PartitionKey(x => x.Id);
     }
 
-    public Map<Screening> CreateForScreening()
+    private Map<Screening> CreateForScreening()
     {
         return For<Screening>().TableName(nameof(Screening))
             .Column(x => x.Id)
@@ -71,7 +72,7 @@ public class CassandraMappings : Mappings
             .PartitionKey(x => x.Id);
     }
 
-    public Map<Ticket> CreateForTicket()
+    private Map<Ticket> CreateForTicket()
     {
         return For<Ticket>().TableName(nameof(Ticket))
             .Column(x => x.Id)
