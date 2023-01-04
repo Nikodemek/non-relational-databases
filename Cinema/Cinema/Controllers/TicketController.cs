@@ -1,4 +1,5 @@
-﻿using Cinema.Models;
+﻿using Cassandra;
+using Cinema.Models;
 using Cinema.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,14 +19,14 @@ public class TicketController : ControllerBase
     }
     
     [HttpGet]
-    public async Task<IEnumerable<Ticket>> GetAll() => await _tickets.GetAllAsync();
+    public async Task<IActionResult> GetAll() => Ok(await _tickets.GetAllAsync());
 
     [HttpGet("{id:guid}")]
-    public async Task<Ticket?> Get(Guid id) => await _tickets.GetAsync(id);
+    public async Task<IActionResult> Get(Guid id) => Ok(await _tickets.GetAsync(id));
 
     [HttpPost("Register")]
-    public async Task Register([FromBody] Ticket newTicket) => await _tickets.CreateAsync(newTicket);
+    public async Task<IActionResult> Register([FromBody] Ticket newTicket) => Ok(await _tickets.CreateAsync(newTicket));
     
     [HttpDelete("Remove/{id:guid}")]
-    public async Task Remove(Guid id) => await _tickets.DeleteAsync(id);
+    public async Task<IActionResult> Remove(Guid id) => Ok(await _tickets.DeleteAsync(id));
 }

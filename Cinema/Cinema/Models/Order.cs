@@ -20,5 +20,5 @@ public sealed record Order : IEntity
     public DateTime PlacedTime { get; set; }
     public decimal FinalPrice { get; set; }
     public bool Success { get; set; }
-    public ICollection<Ticket> Tickets { get; set; }
+    public IEnumerable<Ticket> Tickets { get; set; }
 }

@@ -1,6 +1,6 @@
-﻿namespace Cinema.Models.Interfaces;
+﻿using Cinema.Models.Dto.Interfaces;
 
-public interface IEntity
-{
-    Guid Id { get; set; }
-}
+namespace Cinema.Models.Interfaces;
+
+public interface IEntity : IEntityDto
+{ }

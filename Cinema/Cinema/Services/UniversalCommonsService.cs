@@ -1,62 +1,117 @@
-﻿using Cassandra.Mapping;
+﻿using Cassandra;
+using Cassandra.Mapping;
 using Cinema.Data;
 using Cinema.Models.Interfaces;
 using Cinema.Services.Interfaces;
+using Cassandra.Data.Linq;
+using Cinema.Mappers.Interfaces;
+using Cinema.Models.Dto.Interfaces;
 
 namespace Cinema.Services;
 
-public abstract class UniversalCommonsService<TEntity> : ICommons<TEntity>, IDisposable
+public abstract class UniversalCommonsService<TEntity, TEntityDto> : ICommons<TEntity>, IDisposable
     where TEntity : class, IEntity
+    where TEntityDto: class, IEntityDto
 {
-    private ILogger<UniversalCommonsService<TEntity>> logger;
+    private readonly ILogger<UniversalCommonsService<TEntity, TEntityDto>> logger;
 
-    protected IMapper Database;
-    
-    protected UniversalCommonsService(ILogger<UniversalCommonsService<TEntity>> logger)
+    protected readonly Table<TEntityDto> Table;
+    protected readonly IEntityMapper<TEntity, TEntityDto> Mapper;
+
+    protected UniversalCommonsService(ILogger<UniversalCommonsService<TEntity, TEntityDto>> logger, IEntityMapper<TEntity, TEntityDto> mapper)
     {
         this.logger = logger;
-        Database = CinemaDb.Db;
+        Mapper = mapper;
+        Table = new Table<TEntityDto>(
+            CinemaDb.Session,
+            MappingConfiguration.Global, 
+            typeof(TEntity).Name,
+            CinemaDb.Keyspace);
         
+        Table.CreateIfNotExists();
+    }
+
+    public async Task<IEnumerable<TEntity>> GetAllAsync()
+    {
+        var result = await Table.ExecuteAsync();
         
+        var list = new List<TEntity>();
+        foreach (TEntityDto dto in result)
+        {
+            list.Add(await Mapper.ToEntity(dto));
+        }
+        return list;
     }
 
-    public Task<IEnumerable<TEntity>> GetAllAsync()
+    public async Task<IEnumerable<TEntity>> GetAllWithIdsAsync(IEnumerable<Guid> ids)
     {
-        return Database.FetchAsync<TEntity>();
+        var idsSet = ids.ToHashSet();
+        
+        var result = await Table
+            .Where(x => idsSet.Contains(x.Id))
+            .ExecuteAsync();
+        
+        var list = new List<TEntity>();
+        foreach (TEntityDto dto in result)
+        {
+            list.Add(await Mapper.ToEntity(dto));
+        }
+        return list;
     }
 
-    public Task<IEnumerable<TEntity>> GetAllWithIdsAsync(ICollection<Guid> ids)
+    public async Task<TEntity> GetAsync(Guid id)
     {
-        return Database.FetchAsync<TEntity>();
+        var result = await Table
+            .FirstOrDefault(x => x.Id == id)
+            .ExecuteAsync();
+
+        if (result is null)
+            throw new EntityNotFoundException(typeof(TEntity), nameof(id), id);
+        
+        return await Mapper.ToEntity(result);
     }
 
-    public Task<TEntity?> GetAsync(Guid id)
+    public async Task<RowSet> CreateAsync(TEntity entity)
     {
-        throw new NotImplementedException();
+        var dto = await Mapper.ToDto(entity);
+        
+        return await Table
+            .Insert(dto)
+            .ExecuteAsync();
     }
 
-    public Task CreateAsync(TEntity entity)
+    public async Task<RowSet> UpdateAsync(Guid id, Action<TEntity> modExpr)
     {
-        throw new NotImplementedException();
+        var entity = await GetAsync(id);
+
+        modExpr(entity);
+
+        return await UpdateAsync(id, entity);
     }
 
-    public Task UpdateAsync(Guid id, Action<TEntity> modExpr)
+    public async Task<RowSet> UpdateAsync(Guid id, TEntity entity)
     {
-        throw new NotImplementedException();
+        entity.Id = id;
+        
+        var dto = await Mapper.ToDto(entity);
+        
+        return await Table
+            .Where(x => x.Id == id)
+            .Select(x => dto)
+            .Update()
+            .ExecuteAsync();
     }
 
-    public Task UpdateAsync(Guid id, TEntity entity)
+    public Task<RowSet> DeleteAsync(Guid id)
     {
-        throw new NotImplementedException();
-    }
-
-    public Task<bool> DeleteAsync(Guid id)
-    {
-        throw new NotImplementedException();
+        return Table
+            .Where(x => x.Id == id)
+            .Delete()
+            .ExecuteAsync();
     }
 
     public void Dispose()
     {
-        throw new NotImplementedException();
+        
     }
 }

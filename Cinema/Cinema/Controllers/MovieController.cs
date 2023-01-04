@@ -18,14 +18,14 @@ public class MovieController : ControllerBase
     }
     
     [HttpGet]
-    public async Task<IEnumerable<Movie>> GetAll() => await _movies.GetAllAsync();
+    public async Task<IActionResult> GetAll() => Ok(await _movies.GetAllAsync());
 
     [HttpGet("{id:guid}")]
-    public async Task<Movie?> Get(Guid id) => await _movies.GetAsync(id);
+    public async Task<IActionResult> Get(Guid id) => Ok(await _movies.GetAsync(id));
 
     [HttpPost("Register")]
-    public async Task Register([FromBody] Movie newMovie) => await _movies.CreateAsync(newMovie);
+    public async Task<IActionResult> Register([FromBody] Movie newMovie) => Ok(await _movies.CreateAsync(newMovie));
     
     [HttpDelete("Remove/{id:guid}")]
-    public async Task Remove(Guid id) => await _movies.DeleteAsync(id);
+    public async Task<IActionResult> Remove(Guid id) => Ok(await _movies.DeleteAsync(id));
 }

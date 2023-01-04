@@ -1,12 +1,14 @@
-﻿namespace Cinema.Services.Interfaces;
+﻿using Cassandra;
+
+namespace Cinema.Services.Interfaces;
 
 public interface ICommons<T>
 {
     Task<IEnumerable<T>> GetAllAsync();
-    Task<IEnumerable<T>> GetAllWithIdsAsync(ICollection<Guid> ids);
-    Task<T?> GetAsync(Guid id);
-    Task CreateAsync(T entity);
-    Task UpdateAsync(Guid id, Action<T> modExpr);
-    Task UpdateAsync(Guid id, T entity);
-    Task<bool> DeleteAsync(Guid id);
+    Task<IEnumerable<T>> GetAllWithIdsAsync(IEnumerable<Guid> ids);
+    Task<T> GetAsync(Guid id);
+    Task<RowSet> CreateAsync(T entity);
+    Task<RowSet> UpdateAsync(Guid id, Action<T> modExpr);
+    Task<RowSet> UpdateAsync(Guid id, T entity);
+    Task<RowSet> DeleteAsync(Guid id);
 }

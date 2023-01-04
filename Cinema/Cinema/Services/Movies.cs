@@ -1,12 +1,13 @@
-﻿using Cinema.Models;
+﻿using Cinema.Mappers.Interfaces;
+using Cinema.Models;
+using Cinema.Models.Dto;
 using Cinema.Services.Interfaces;
-using Microsoft.Extensions.Caching.Distributed;
 
 namespace Cinema.Services;
 
-public sealed class Movies : UniversalCommonsService<Movie>, IMovies
+public sealed class Movies : UniversalCommonsService<Movie, MovieDto>, IMovies
 {
-    public Movies(ILogger<Movies> logger)
-        : base(logger)
+    public Movies(ILogger<Movies> logger, IEntityMapper<Movie, MovieDto> mapper)
+        : base(logger, mapper)
     { }
 }

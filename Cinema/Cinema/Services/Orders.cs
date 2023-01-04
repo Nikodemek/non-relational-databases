@@ -1,24 +1,26 @@
-﻿using Cinema.Models;
+﻿using Cinema.Mappers.Interfaces;
+using Cinema.Models;
+using Cinema.Models.Dto;
 using Cinema.Services.Interfaces;
 using Cinema.Utils;
 
 namespace Cinema.Services;
 
-public sealed class Orders : UniversalCommonsService<Order>, IOrders
+public sealed class Orders : UniversalCommonsService<Order, OrderDto>, IOrders
 {
     private readonly ILogger<Orders> _logger;
     private readonly IClients _clients;
     private readonly ITickets _tickets;
     
-    public Orders(ILogger<Orders> logger, IClients clients, ITickets tickets)
-        : base(logger)
+    public Orders(ILogger<Orders> logger, IClients clients, ITickets tickets, IEntityMapper<Order, OrderDto> mapper)
+        : base(logger, mapper)
     {
         _logger = logger;
         _clients = clients;
         _tickets = tickets;
     }
 
-    public async Task<Order> PlaceAsync(Guid clientId, Guid[] ticketIds)
+    public async Task<Order> PlaceAsync(Guid clientId, ICollection<Guid> ticketIds)
     {
         IEnumerable<Ticket> ticketsEnumerable = await _tickets.GetAllWithIdsAsync(ticketIds);
         Ticket[] tickets = ticketsEnumerable.ToArray();
@@ -50,9 +52,9 @@ public sealed class Orders : UniversalCommonsService<Order>, IOrders
 
         order.Success = true;
 
-        await Task.WhenAll(tickets.Select(t => _tickets.UpdateAsync(t))
+        await Task.WhenAll(tickets.Select(t => _tickets.UpdateAsync(t.Id, t))
             .Append(CreateAsync(order))
-            .Append(_clients.UpdateAsync(client))
+            .Append(_clients.UpdateAsync(client.Id, client))
         );
         
         return order;

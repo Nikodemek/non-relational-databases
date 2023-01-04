@@ -18,17 +18,17 @@ public class OrderController : ControllerBase
     }
     
     [HttpGet]
-    public async Task<IEnumerable<Order>> GetAll() => await _orders.GetAllAsync();
+    public async Task<IActionResult> GetAll() => Ok(await _orders.GetAllAsync());
 
     [HttpGet("{id:guid}")]
-    public async Task<Order?> Get(Guid id) => await _orders.GetAsync(id);
+    public async Task<IActionResult> Get(Guid id) => Ok(await _orders.GetAsync(id));
 
     [HttpPost("Register")]
-    public async Task Register([FromBody] Order newTicket) => await _orders.CreateAsync(newTicket);
+    public async Task<IActionResult> Register([FromBody] Order newTicket) => Ok(await _orders.CreateAsync(newTicket));
 
     [HttpPost("Place/{clientId:guid}")]
-    public async Task<Order> Place([FromRoute] Guid clientId, [FromBody] Guid[] ticketIds) => await _orders.PlaceAsync(clientId, ticketIds);
+    public async Task<IActionResult> Place([FromRoute] Guid clientId, [FromBody] Guid[] ticketIds) => Ok(await _orders.PlaceAsync(clientId, ticketIds));
     
     [HttpDelete("Remove/{id:guid}")]
-    public async Task Remove(Guid id) => await _orders.DeleteAsync(id);
+    public async Task<IActionResult> Remove(Guid id) => Ok(await _orders.DeleteAsync(id));
 }

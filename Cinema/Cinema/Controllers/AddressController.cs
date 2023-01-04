@@ -18,14 +18,14 @@ public class AddressController : ControllerBase
     }
     
     [HttpGet]
-    public async Task<IEnumerable<Address>> GetAll() => await _addresses.GetAllAsync();
+    public async Task<IActionResult> GetAll() => Ok(await _addresses.GetAllAsync());
 
     [HttpGet("{id:guid}")]
-    public async Task<Address?> Get(Guid id) => await _addresses.GetAsync(id);
+    public async Task<IActionResult> Get(Guid id) => Ok(await _addresses.GetAsync(id));
 
     [HttpPost("Register")]
-    public async Task Register([FromBody] Address newAddress) => await _addresses.CreateAsync(newAddress);
+    public async Task<IActionResult> Register([FromBody] Address newAddress) => Ok(await _addresses.CreateAsync(newAddress));
     
     [HttpDelete("Remove/{id:guid}")]
-    public async Task Remove(Guid id) => await _addresses.DeleteAsync(id);
+    public async Task<IActionResult> Remove(Guid id) => Ok(await _addresses.DeleteAsync(id));
 }

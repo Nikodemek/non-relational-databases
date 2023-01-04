@@ -18,21 +18,21 @@ public class ClientController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IEnumerable<Client>> GetAll() => await _clients.GetAllAsync();
+    public async Task<IActionResult> GetAll() => Ok(await _clients.GetAllAsync());
 
     [HttpGet("{id:guid}")]
-    public async Task<Client?> Get(Guid id) => await _clients.GetAsync(id);
+    public async Task<IActionResult> Get(Guid id) => Ok(await _clients.GetAsync(id));
 
     [HttpPost("Register")]
-    public async Task Register([FromBody] Client newClient) => await _clients.CreateAsync(newClient);
+    public async Task<IActionResult> Register([FromBody] Client newClient) => Ok(await _clients.CreateAsync(newClient));
 
     [HttpPut("Update")]
-    public async Task Update([FromBody] Client updatedClient) => await _clients.UpdateAsync(updatedClient);
+    public async Task<IActionResult> Update([FromBody] Client updatedClient) => Ok(await _clients.UpdateAsync(updatedClient.Id, updatedClient));
 
     [HttpPut("Archive/{id:guid}")]
-    public async Task Archive(Guid id) => await _clients.ArchiveAsync(id);
+    public async Task<IActionResult> Archive(Guid id) => Ok(await _clients.ArchiveAsync(id));
 
     [HttpDelete("Remove/{id:guid}")]
-    public async Task Remove(Guid id) => await _clients.DeleteAsync(id);
+    public async Task<IActionResult> Remove(Guid id) => Ok(await _clients.DeleteAsync(id));
 
 }

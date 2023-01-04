@@ -1,9 +1,11 @@
-﻿namespace Cinema.Utils;
+﻿using Cassandra;
+
+namespace Cinema.Utils;
 
 public static class Generate
 {
     public static Guid Id()
     {
-        return Guid.NewGuid();
+        return TimeUuid.NewId();
     }
 }

@@ -1,5 +1,7 @@
-﻿using Cassandra.Mapping;
+﻿using Cassandra;
+using Cassandra.Mapping;
 using Cinema.Models;
+using Cinema.Models.Dto;
 using Cinema.Models.Interfaces;
 
 namespace Cinema.Mappers;
@@ -11,14 +13,14 @@ public class CassandraMappings : Mappings
         CreateForAddress();
         CreateForClient();
         CreateForMovie();
-        CreateForOrder();
         CreateForScreening();
         CreateForTicket();
+        CreateForOrder();
     }
 
-    private Map<Address> CreateForAddress()
+    private Map<AddressDto> CreateForAddress()
     {
-        return For<Address>().TableName(nameof(Address))
+        return For<AddressDto>().TableName(nameof(Address))
             .Column(x => x.Id)
             .Column(x => x.Country)
             .Column(x => x.City)
@@ -27,59 +29,59 @@ public class CassandraMappings : Mappings
             .PartitionKey(x => x.Id);
     }
 
-    private Map<Client> CreateForClient()
+    private Map<ClientDto> CreateForClient()
     {
-        return For<Client>().TableName(nameof(Client))
+        return For<ClientDto>().TableName(nameof(Client))
             .Column(x => x.Id)
             .Column(x => x.FirstName)
             .Column(x => x.LastName)
             .Column(x => x.Birthday)
             .Column(x => x.ClientType)
-            .Column(x => x.Address)
+            .Column(x => x.AddressId)
             .Column(x => x.AccountBalance)
             .Column(x => x.Archived)
             .PartitionKey(x => x.Id);
     }
 
-    private Map<Movie> CreateForMovie()
+    private Map<MovieDto> CreateForMovie()
     {
-        return For<Movie>().TableName(nameof(Movie))
+        return For<MovieDto>().TableName(nameof(Movie))
             .Column(x => x.Id)
             .Column(x => x.Title)
             .Column(x => x.Length)
-            .Column(x => x.AgeCategory)
+            .Column(x => (int)x.AgeCategory)
             .PartitionKey(x => x.Id);
     }
 
-    private Map<Order> CreateForOrder()
+    private Map<ScreeningDto> CreateForScreening()
     {
-        return For<Order>().TableName(nameof(Order))
+        return For<ScreeningDto>().TableName(nameof(Screening))
             .Column(x => x.Id)
-            .Column(x => x.Client)
-            .Column(x => x.PlacedTime)
-            .Column(x => x.FinalPrice)
-            .Column(x => x.Success)
-            .Column(x => x.Tickets)
-            .PartitionKey(x => x.Id);
-    }
-
-    private Map<Screening> CreateForScreening()
-    {
-        return For<Screening>().TableName(nameof(Screening))
-            .Column(x => x.Id)
-            .Column(x => x.Movie)
+            .Column(x => x.MovieId)
             .Column(x => x.Time)
             .PartitionKey(x => x.Id);
     }
 
-    private Map<Ticket> CreateForTicket()
+    private Map<TicketDto> CreateForTicket()
     {
-        return For<Ticket>().TableName(nameof(Ticket))
+        return For<TicketDto>().TableName(nameof(Ticket))
             .Column(x => x.Id)
             .Column(x => x.Price)
-            .Column(x => x.Screening)
+            .Column(x => x.ScreeningId)
             .Column(x => x.Sold)
             .Column(x => x.Archived)
+            .PartitionKey(x => x.Id);
+    }
+
+    private Map<OrderDto> CreateForOrder()
+    {
+        return For<OrderDto>().TableName(nameof(Order))
+            .Column(x => x.Id)
+            .Column(x => x.ClientId)
+            .Column(x => x.PlacedTime)
+            .Column(x => x.FinalPrice)
+            .Column(x => x.Success)
+            .Column(x => x.TicketIds)
             .PartitionKey(x => x.Id);
     }
 }
