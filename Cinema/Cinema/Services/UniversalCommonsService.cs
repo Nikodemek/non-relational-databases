@@ -1,4 +1,6 @@
-﻿using Cinema.Models.Interfaces;
+﻿using Cassandra.Mapping;
+using Cinema.Data;
+using Cinema.Models.Interfaces;
 using Cinema.Services.Interfaces;
 
 namespace Cinema.Services;
@@ -6,21 +8,24 @@ namespace Cinema.Services;
 public abstract class UniversalCommonsService<TEntity> : ICommons<TEntity>, IDisposable
     where TEntity : class, IEntity
 {
-    private ILogger<UniversalCommonsService<TEntity>> log;
+    private ILogger<UniversalCommonsService<TEntity>> logger;
+
+    protected IMapper Database;
     
     protected UniversalCommonsService(ILogger<UniversalCommonsService<TEntity>> logger)
     {
-        log = logger;
+        this.logger = logger;
+        Database = CinemaDb.Db;
     }
 
-    public Task<List<TEntity>> GetAllAsync()
+    public Task<IEnumerable<TEntity>> GetAllAsync()
     {
-        throw new NotImplementedException();
+        return Database.FetchAsync<TEntity>();
     }
 
-    public Task<List<TEntity>> GetAllWithIdsAsync(ICollection<Guid> ids)
+    public Task<IEnumerable<TEntity>> GetAllWithIdsAsync(ICollection<Guid> ids)
     {
-        throw new NotImplementedException();
+        return Database.FetchAsync<TEntity>();
     }
 
     public Task<TEntity?> GetAsync(Guid id)

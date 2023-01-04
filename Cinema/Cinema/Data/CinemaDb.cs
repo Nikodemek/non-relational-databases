@@ -1,35 +1,37 @@
-﻿namespace Cinema.Data;
+﻿using System.Net;
+using System.Net.NetworkInformation;
+using System.Security.Principal;
+using Cassandra;
+using Cassandra.Mapping;
+using ISession = Cassandra.ISession;
+
+namespace Cinema.Data;
 
 public static class CinemaDb
 {
-    private static string? _connectionString;
-    private static string? _databaseName;
+    private static ICluster? _cluster;
+    private static ISession? _session;
+    private static IMapper? _mapper;
 
-    public static void SetUpConnection(IConfiguration configuration)
+    public static IMapper Db => _mapper ?? throw new Exception("Connection not initialized!");
+
+    public static IMapper SetUpConnection(IConfiguration configuration)
     {
-        _connectionString = configuration.GetConnectionString("Mongo.Configuration");
-        _databaseName = configuration.GetConnectionString("Mongo.DatabaseName");
+        const string keyspace = "cinema";
+        
+        ReadOnlySpan<char> hostIpAddress = "127.0.0.1";
+        IPAddress host = IPAddress.Parse(hostIpAddress);
+        int node1Port = 9139;
+        int node2Port = 9240;
+
+        _cluster = Cluster.Builder()
+            .AddContactPoint(new IPEndPoint(host, node1Port))
+            .AddContactPoint(new IPEndPoint(host, node2Port))
+            .WithReconnectionPolicy(new ConstantReconnectionPolicy(1000))
+            .Build();
+        
+        _session = _cluster.Connect(keyspace);
+        
+        return _mapper = new Mapper(_session);
     }
-    
-    public static void SetUpConnection(string connectionString, string databaseName)
-    {
-        _connectionString = connectionString;
-        _databaseName = databaseName;
-    }
-
-    /*public static IMongoDatabase Database
-    {
-        get
-        {
-            if (_database is not null) return _database;
-
-            if (_connectionString is null || _databaseName is null)
-                throw new Exception("MongoDB connection info was not initialized!");
-
-            var client = new MongoClient(_connectionString);
-            return _database = client.GetDatabase(_databaseName);
-        }
-    }
-
-    private static IMongoDatabase? _database;*/
 }

@@ -20,7 +20,8 @@ public sealed class Orders : UniversalCommonsService<Order>, IOrders
 
     public async Task<Order> PlaceAsync(Guid clientId, Guid[] ticketIds)
     {
-        List<Ticket> tickets = await _tickets.GetAllWithIdsAsync(ticketIds);
+        IEnumerable<Ticket> ticketsEnumerable = await _tickets.GetAllWithIdsAsync(ticketIds);
+        Ticket[] tickets = ticketsEnumerable.ToArray();
         Client? client = await _clients.GetAsync(clientId);
 
         if (client is null)

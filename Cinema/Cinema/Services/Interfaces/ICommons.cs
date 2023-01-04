@@ -2,8 +2,8 @@
 
 public interface ICommons<T>
 {
-    Task<List<T>> GetAllAsync();
-    Task<List<T>> GetAllWithIdsAsync(ICollection<Guid> ids);
+    Task<IEnumerable<T>> GetAllAsync();
+    Task<IEnumerable<T>> GetAllWithIdsAsync(ICollection<Guid> ids);
     Task<T?> GetAsync(Guid id);
     Task CreateAsync(T entity);
     Task UpdateAsync(Guid id, Action<T> modExpr);

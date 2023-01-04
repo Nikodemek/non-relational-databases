@@ -1,5 +1,7 @@
+using Cassandra.Mapping;
 using Cinema;
 using Cinema.Data;
+using Cinema.Mappers;
 using Cinema.Services;
 using Cinema.Services.Interfaces;
 
@@ -15,6 +17,8 @@ services.AddEndpointsApiExplorer();
 services.AddSwaggerGen();
 
 CinemaDb.SetUpConnection(config);
+MappingConfiguration.Global.Define<CassandraMappings>();
+
 services
     .AddSingleton<IClients, Clients>()
     .AddSingleton<IAddresses, Addresses>()
