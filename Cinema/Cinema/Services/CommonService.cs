@@ -20,7 +20,7 @@ public abstract class CommonService<TEntity, TEntityDto> : ICommonService<TEntit
 
     protected CommonService(ILogger<CommonService<TEntity, TEntityDto>> logger, IEntityMapper<TEntity, TEntityDto> mapper)
     {
-        this._logger = logger;
+        _logger = logger;
         Mapper = mapper;
         Table = new Table<TEntityDto>(
             CinemaDb.Session,
