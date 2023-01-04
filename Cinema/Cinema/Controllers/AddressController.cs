@@ -1,7 +1,6 @@
 ﻿using Cinema.Models;
 using Cinema.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using MongoDB.Bson;
 
 namespace Cinema.Controllers;
 
@@ -21,12 +20,12 @@ public class AddressController : ControllerBase
     [HttpGet]
     public async Task<IEnumerable<Address>> GetAll() => await _addresses.GetAllAsync();
 
-    [HttpGet("{id}")]
-    public async Task<Address?> Get(string id) => await _addresses.GetAsync(id);
+    [HttpGet("{id:guid}")]
+    public async Task<Address?> Get(Guid id) => await _addresses.GetAsync(id);
 
     [HttpPost("Register")]
     public async Task Register([FromBody] Address newAddress) => await _addresses.CreateAsync(newAddress);
     
-    [HttpDelete("Remove/{id}")]
-    public async Task Remove(string id) => await _addresses.DeleteAsync(id);
+    [HttpDelete("Remove/{id:guid}")]
+    public async Task Remove(Guid id) => await _addresses.DeleteAsync(id);
 }

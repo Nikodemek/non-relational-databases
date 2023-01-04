@@ -1,7 +1,6 @@
 ﻿using Cinema.Models;
 using Cinema.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using MongoDB.Bson;
 
 namespace Cinema.Controllers;
 
@@ -21,12 +20,12 @@ public class TicketController : ControllerBase
     [HttpGet]
     public async Task<IEnumerable<Ticket>> GetAll() => await _tickets.GetAllAsync();
 
-    [HttpGet("{id}")]
-    public async Task<Ticket?> Get(string id) => await _tickets.GetAsync(id);
+    [HttpGet("{id:guid}")]
+    public async Task<Ticket?> Get(Guid id) => await _tickets.GetAsync(id);
 
     [HttpPost("Register")]
     public async Task Register([FromBody] Ticket newTicket) => await _tickets.CreateAsync(newTicket);
     
-    [HttpDelete("Remove/{id}")]
-    public async Task Remove(string id) => await _tickets.DeleteAsync(id);
+    [HttpDelete("Remove/{id:guid}")]
+    public async Task Remove(Guid id) => await _tickets.DeleteAsync(id);
 }

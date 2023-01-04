@@ -1,7 +1,6 @@
 ﻿using Cinema.Models;
 using Cinema.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using MongoDB.Bson;
 
 namespace Cinema.Controllers;
 
@@ -21,12 +20,12 @@ public class ScreeningController : ControllerBase
     [HttpGet]
     public async Task<IEnumerable<Screening>> GetAll() => await _screenings.GetAllAsync();
 
-    [HttpGet("{id}")]
-    public async Task<Screening?> Get(string id) => await _screenings.GetAsync(id);
+    [HttpGet("{id:guid}")]
+    public async Task<Screening?> Get(Guid id) => await _screenings.GetAsync(id);
 
     [HttpPost("Register")]
     public async Task Register([FromBody] Screening newScreening) => await _screenings.CreateAsync(newScreening);
     
-    [HttpDelete("Remove/{id}")]
-    public async Task Remove(string id) => await _screenings.DeleteAsync(id);
+    [HttpDelete("Remove/{id:guid}")]
+    public async Task Remove(Guid id) => await _screenings.DeleteAsync(id);
 }

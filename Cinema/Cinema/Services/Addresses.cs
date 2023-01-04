@@ -8,7 +8,7 @@ namespace Cinema.Services;
 
 public class Addresses : UniversalCommonsService<Address>, IAddresses
 {
-    public Addresses(ILogger<Addresses> logger, IDistributedCache cache)
-        : base(logger, cache)
+    public Addresses(ILogger<Addresses> logger)
+        : base(logger)
     { }
 }

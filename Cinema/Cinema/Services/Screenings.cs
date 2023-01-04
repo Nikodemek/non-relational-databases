@@ -6,7 +6,7 @@ namespace Cinema.Services;
 
 public sealed class Screenings : UniversalCommonsService<Screening>, IScreenings
 {
-    public Screenings(ILogger<Screenings> logger, IDistributedCache cache)
-        : base(logger, cache)
+    public Screenings(ILogger<Screenings> logger)
+        : base(logger)
     { }
 }

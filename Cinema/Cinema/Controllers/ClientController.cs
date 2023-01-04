@@ -1,8 +1,6 @@
 using Cinema.Models;
 using Cinema.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using MongoDB.Bson;
-using MongoDB.Driver;
 
 namespace Cinema.Controllers;
 
@@ -22,8 +20,8 @@ public class ClientController : ControllerBase
     [HttpGet]
     public async Task<IEnumerable<Client>> GetAll() => await _clients.GetAllAsync();
 
-    [HttpGet("{id}")]
-    public async Task<Client?> Get(string id) => await _clients.GetAsync(id);
+    [HttpGet("{id:guid}")]
+    public async Task<Client?> Get(Guid id) => await _clients.GetAsync(id);
 
     [HttpPost("Register")]
     public async Task Register([FromBody] Client newClient) => await _clients.CreateAsync(newClient);
@@ -31,10 +29,10 @@ public class ClientController : ControllerBase
     [HttpPut("Update")]
     public async Task Update([FromBody] Client updatedClient) => await _clients.UpdateAsync(updatedClient);
 
-    [HttpPut("Archive/{id}")]
-    public async Task Archive(string id) => await _clients.ArchiveAsync(id);
+    [HttpPut("Archive/{id:guid}")]
+    public async Task Archive(Guid id) => await _clients.ArchiveAsync(id);
 
-    [HttpDelete("Remove/{id}")]
-    public async Task Remove(string id) => await _clients.DeleteAsync(id);
+    [HttpDelete("Remove/{id:guid}")]
+    public async Task Remove(Guid id) => await _clients.DeleteAsync(id);
 
 }

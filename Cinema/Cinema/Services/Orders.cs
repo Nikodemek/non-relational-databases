@@ -11,14 +11,14 @@ public sealed class Orders : UniversalCommonsService<Order>, IOrders
     private readonly ITickets _tickets;
     
     public Orders(ILogger<Orders> logger, IClients clients, ITickets tickets)
-        : base(logger, null)
+        : base(logger)
     {
         _logger = logger;
         _clients = clients;
         _tickets = tickets;
     }
 
-    public async Task<Order> PlaceAsync(string clientId, string[] ticketIds)
+    public async Task<Order> PlaceAsync(Guid clientId, Guid[] ticketIds)
     {
         List<Ticket> tickets = await _tickets.GetAllWithIdsAsync(ticketIds);
         Client? client = await _clients.GetAsync(clientId);

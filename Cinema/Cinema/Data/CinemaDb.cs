@@ -1,7 +1,4 @@
-﻿using MongoDB.Bson;
-using MongoDB.Driver;
-
-namespace Cinema.Data;
+﻿namespace Cinema.Data;
 
 public static class CinemaDb
 {
@@ -20,7 +17,7 @@ public static class CinemaDb
         _databaseName = databaseName;
     }
 
-    public static IMongoDatabase Database
+    /*public static IMongoDatabase Database
     {
         get
         {
@@ -34,5 +31,5 @@ public static class CinemaDb
         }
     }
 
-    private static IMongoDatabase? _database;
+    private static IMongoDatabase? _database;*/
 }

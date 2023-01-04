@@ -1,7 +1,5 @@
 ﻿using Cinema.Models.Interfaces;
 using Cinema.Utils;
-using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
 
 namespace Cinema.Models;
 
@@ -17,9 +15,7 @@ public sealed record Order : IEntity
         FinalPrice = tickets.Sum(t => t.Price);
     }
     
-    [BsonId]
-    [BsonRepresentation(BsonType.ObjectId)]
-    public string Id { get; set; } = Generate.BsonId();
+    public Guid Id { get; set; } = Generate.Id();
     public Client? Client { get; set; }
     public DateTime PlacedTime { get; set; }
     public decimal FinalPrice { get; set; }

@@ -6,7 +6,7 @@ namespace Cinema.Services;
 
 public sealed class Movies : UniversalCommonsService<Movie>, IMovies
 {
-    public Movies(ILogger<Movies> logger, IDistributedCache cache)
-        : base(logger, cache)
+    public Movies(ILogger<Movies> logger)
+        : base(logger)
     { }
 }

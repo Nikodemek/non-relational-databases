@@ -1,12 +1,9 @@
-﻿using MongoDB.Bson;
-
-namespace Cinema.Utils;
+﻿namespace Cinema.Utils;
 
 public static class Generate
 {
-    public static string BsonId()
+    public static Guid Id()
     {
-        var objectId = ObjectId.GenerateNewId();
-        return objectId.ToString();
+        return Guid.NewGuid();
     }
 }

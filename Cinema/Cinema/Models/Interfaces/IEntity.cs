@@ -1,8 +1,6 @@
-﻿using MongoDB.Bson;
-
-namespace Cinema.Models.Interfaces;
+﻿namespace Cinema.Models.Interfaces;
 
 public interface IEntity
 {
-    string Id { get; set; }
+    Guid Id { get; set; }
 }

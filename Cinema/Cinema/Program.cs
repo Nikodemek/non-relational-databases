@@ -23,11 +23,6 @@ services
     .AddSingleton<ITickets, Tickets>()
     .AddSingleton<IOrders, Orders>();
 services.AddSingleton<TestData>();
-services.AddStackExchangeRedisCache(options =>
-{
-    options.Configuration = config.GetConnectionString("Redis.Configuration");
-    options.InstanceName = config.GetConnectionString("Redis.InstanceName");
-});
 
 var app = builder.Build();
 
@@ -44,7 +39,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-var testData = app.Services.GetService<TestData>();
-testData?.InsertData();
+/*var testData = app.Services.GetService<TestData>();
+testData?.InsertData();*/
 
 app.Run();

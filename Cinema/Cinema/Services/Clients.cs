@@ -6,7 +6,7 @@ namespace Cinema.Services;
 public sealed class Clients : UniversalCommonsService<Client>, IClients
 {
     public Clients(ILogger<Clients> logger)
-        : base(logger, null)
+        : base(logger)
     { }
     
     public async Task UpdateAsync(Client client)
@@ -14,7 +14,7 @@ public sealed class Clients : UniversalCommonsService<Client>, IClients
         await UpdateAsync(client.Id, client);
     }
 
-    public async Task ArchiveAsync(string id)
+    public async Task ArchiveAsync(Guid id)
     {
         await UpdateAsync(id, client => client.Archived = true);
     }
