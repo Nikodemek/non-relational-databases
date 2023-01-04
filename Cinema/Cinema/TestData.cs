@@ -60,30 +60,30 @@ public class TestData
         PlacedTime = DateTime.Now,
     };
 
-    private readonly IAddresses _addresses;
-    private readonly IClients _clients;
-    private readonly IMovies _movies;
-    private readonly IOrders _orders;
-    private readonly IScreenings _screenings;
-    private readonly ITickets _tickets;
+    private readonly IAddressService _addressService;
+    private readonly IClientService _clientService;
+    private readonly IMovieService _movieService;
+    private readonly IOrderService _orderService;
+    private readonly IScreeningService _screeningService;
+    private readonly ITicketService _ticketService;
     
-    public TestData(IAddresses addresses, IClients clients, IMovies movies, IOrders orders, IScreenings screenings, ITickets tickets)
+    public TestData(IAddressService addressService, IClientService clientService, IMovieService movieService, IOrderService orderService, IScreeningService screeningService, ITicketService ticketService)
     {
-        _addresses = addresses;
-        _clients = clients;
-        _movies = movies;
-        _orders = orders;
-        _screenings = screenings;
-        _tickets = tickets;
+        _addressService = addressService;
+        _clientService = clientService;
+        _movieService = movieService;
+        _orderService = orderService;
+        _screeningService = screeningService;
+        _ticketService = ticketService;
     }
 
     public async void InsertData()
     {
-        await _addresses.CreateAsync(Address1 with {Id = Generate.Id()});
-        await _clients.CreateAsync(Client1 with {Id = Generate.Id()});
-        await _screenings.CreateAsync(Screening1 with {Id = Generate.Id()});
-        await _movies.CreateAsync(Movie1 with {Id = Generate.Id()});
-        await _tickets.CreateAsync(Ticket2 with {Id = Generate.Id()});
-        await _orders.CreateAsync(Order1 with {Id = Generate.Id()});
+        await _addressService.CreateAsync(Address1 with {Id = Generate.Id()});
+        await _clientService.CreateAsync(Client1 with {Id = Generate.Id()});
+        await _screeningService.CreateAsync(Screening1 with {Id = Generate.Id()});
+        await _movieService.CreateAsync(Movie1 with {Id = Generate.Id()});
+        await _ticketService.CreateAsync(Ticket2 with {Id = Generate.Id()});
+        await _orderService.CreateAsync(Order1 with {Id = Generate.Id()});
     }
 }

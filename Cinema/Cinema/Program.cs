@@ -24,12 +24,12 @@ CinemaDb.SetUpConnection(config);
 MappingConfiguration.Global.Define<CassandraMappings>();
 
 services
-    .AddSingleton<IAddresses, Addresses>()
-    .AddSingleton<IClients, Clients>()
-    .AddSingleton<IMovies, Movies>()
-    .AddSingleton<IScreenings, Screenings>()
-    .AddSingleton<ITickets, Tickets>()
-    .AddSingleton<IOrders, Orders>();
+    .AddSingleton<IAddressService, AddressService>()
+    .AddSingleton<IClientService, ClientService>()
+    .AddSingleton<IMovieService, MovieService>()
+    .AddSingleton<IScreeningService, ScreeningService>()
+    .AddSingleton<ITicketService, TicketService>()
+    .AddSingleton<IOrderService, OrderService>();
 services
     .AddSingleton<IEntityMapper<Address, AddressDto>, AddressMapper>()
     .AddSingleton<IEntityMapper<Client, ClientDto>, ClientMapper>()

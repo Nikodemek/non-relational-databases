@@ -2,7 +2,7 @@
 
 namespace Cinema.Services.Interfaces;
 
-public interface ICommons<T>
+public interface ICommonService<T>
 {
     Task<IEnumerable<T>> GetAllAsync();
     Task<IEnumerable<T>> GetAllWithIdsAsync(IEnumerable<Guid> ids);

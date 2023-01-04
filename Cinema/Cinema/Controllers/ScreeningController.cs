@@ -9,23 +9,23 @@ namespace Cinema.Controllers;
 public class ScreeningController : ControllerBase
 {
     private readonly ILogger<ScreeningController> _logger;
-    private readonly IScreenings _screenings;
+    private readonly IScreeningService _screeningService;
 
-    public ScreeningController(ILogger<ScreeningController> logger, IScreenings screenings)
+    public ScreeningController(ILogger<ScreeningController> logger, IScreeningService screeningService)
     {
         _logger = logger;
-        _screenings = screenings;
+        _screeningService = screeningService;
     }
     
     [HttpGet]
-    public async Task<IActionResult> GetAll() => Ok(await _screenings.GetAllAsync());
+    public async Task<IActionResult> GetAll() => Ok(await _screeningService.GetAllAsync());
 
     [HttpGet("{id:guid}")]
-    public async Task<IActionResult> Get(Guid id) => Ok(await _screenings.GetAsync(id));
+    public async Task<IActionResult> Get(Guid id) => Ok(await _screeningService.GetAsync(id));
 
     [HttpPost("Register")]
-    public async Task<IActionResult> Register([FromBody] Screening newScreening) => Ok(await _screenings.CreateAsync(newScreening));
+    public async Task<IActionResult> Register([FromBody] Screening newScreening) => Ok(await _screeningService.CreateAsync(newScreening));
     
     [HttpDelete("Remove/{id:guid}")]
-    public async Task<IActionResult> Remove(Guid id) => Ok(await _screenings.DeleteAsync(id));
+    public async Task<IActionResult> Remove(Guid id) => Ok(await _screeningService.DeleteAsync(id));
 }

@@ -7,11 +7,11 @@ namespace Cinema.Mappers;
 
 public class ClientMapper : IEntityMapper<Client, ClientDto>
 {
-    private readonly IAddresses _addresses;
+    private readonly IAddressService _addressService;
 
-    public ClientMapper(IAddresses addresses)
+    public ClientMapper(IAddressService addressService)
     {
-        _addresses = addresses;
+        _addressService = addressService;
     }
 
     public async Task<Client> ToEntity(ClientDto dto)
@@ -23,7 +23,7 @@ public class ClientMapper : IEntityMapper<Client, ClientDto>
             LastName = dto.LastName,
             Birthday = dto.Birthday,
             ClientType = (ClientType) dto.ClientType,
-            Address = await _addresses.GetAsync(dto.AddressId),
+            Address = await _addressService.GetAsync(dto.AddressId),
             AccountBalance = dto.AccountBalance,
             Archived = dto.Archived,
         };

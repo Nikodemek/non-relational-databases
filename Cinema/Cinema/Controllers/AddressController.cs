@@ -9,23 +9,23 @@ namespace Cinema.Controllers;
 public class AddressController : ControllerBase
 {
     private readonly ILogger<AddressController> _logger;
-    private readonly IAddresses _addresses;
+    private readonly IAddressService _addressService;
 
-    public AddressController(ILogger<AddressController> logger, IAddresses addresses)
+    public AddressController(ILogger<AddressController> logger, IAddressService addressService)
     {
         _logger = logger;
-        _addresses = addresses;
+        _addressService = addressService;
     }
     
     [HttpGet]
-    public async Task<IActionResult> GetAll() => Ok(await _addresses.GetAllAsync());
+    public async Task<IActionResult> GetAll() => Ok(await _addressService.GetAllAsync());
 
     [HttpGet("{id:guid}")]
-    public async Task<IActionResult> Get(Guid id) => Ok(await _addresses.GetAsync(id));
+    public async Task<IActionResult> Get(Guid id) => Ok(await _addressService.GetAsync(id));
 
     [HttpPost("Register")]
-    public async Task<IActionResult> Register([FromBody] Address newAddress) => Ok(await _addresses.CreateAsync(newAddress));
+    public async Task<IActionResult> Register([FromBody] Address newAddress) => Ok(await _addressService.CreateAsync(newAddress));
     
     [HttpDelete("Remove/{id:guid}")]
-    public async Task<IActionResult> Remove(Guid id) => Ok(await _addresses.DeleteAsync(id));
+    public async Task<IActionResult> Remove(Guid id) => Ok(await _addressService.DeleteAsync(id));
 }

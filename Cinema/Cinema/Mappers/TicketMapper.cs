@@ -7,11 +7,11 @@ namespace Cinema.Mappers;
 
 public class TicketMapper : IEntityMapper<Ticket, TicketDto>
 {
-    private readonly IScreenings _screenings;
+    private readonly IScreeningService _screeningService;
 
-    public TicketMapper(IScreenings screenings)
+    public TicketMapper(IScreeningService screeningService)
     {
-        _screenings = screenings;
+        _screeningService = screeningService;
     }
 
     public async Task<Ticket> ToEntity(TicketDto dto)
@@ -20,7 +20,7 @@ public class TicketMapper : IEntityMapper<Ticket, TicketDto>
         {
             Id = dto.Id,
             Price = dto.Price,
-            Screening = await _screenings.GetAsync(dto.ScreeningId),
+            Screening = await _screeningService.GetAsync(dto.ScreeningId),
             Sold = dto.Sold,
             Archived = dto.Archived,
         };

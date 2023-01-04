@@ -7,11 +7,11 @@ namespace Cinema.Mappers;
 
 public class ScreeningMapper : IEntityMapper<Screening, ScreeningDto>
 {
-    private readonly IMovies _movies;
+    private readonly IMovieService _movieService;
 
-    public ScreeningMapper(IMovies movies)
+    public ScreeningMapper(IMovieService movieService)
     {
-        _movies = movies;
+        _movieService = movieService;
     }
 
     public async Task<Screening> ToEntity(ScreeningDto dto)
@@ -19,7 +19,7 @@ public class ScreeningMapper : IEntityMapper<Screening, ScreeningDto>
         return new Screening()
         {
             Id = dto.Id,
-            Movie = await _movies.GetAsync(dto.MovieId),
+            Movie = await _movieService.GetAsync(dto.MovieId),
             Time = dto.Time,
         };
     }

@@ -7,13 +7,13 @@ namespace Cinema.Mappers;
 
 public class OrderMapper : IEntityMapper<Order, OrderDto>
 {
-    private readonly IClients _clients;
-    private readonly ITickets _tickets;
+    private readonly IClientService _clientService;
+    private readonly ITicketService _ticketService;
 
-    public OrderMapper(IClients clients, ITickets tickets)
+    public OrderMapper(IClientService clientService, ITicketService ticketService)
     {
-        _clients = clients;
-        _tickets = tickets;
+        _clientService = clientService;
+        _ticketService = ticketService;
     }
 
     public async Task<Order> ToEntity(OrderDto dto)
@@ -21,11 +21,11 @@ public class OrderMapper : IEntityMapper<Order, OrderDto>
         return new Order()
         {
             Id = dto.Id,
-            Client = await _clients.GetAsync(dto.ClientId),
+            Client = await _clientService.GetAsync(dto.ClientId),
             PlacedTime = dto.PlacedTime,
             FinalPrice = dto.FinalPrice,
             Success = dto.Success,
-            Tickets = await _tickets.GetAllWithIdsAsync(dto.TicketIds),
+            Tickets = await _ticketService.GetAllWithIdsAsync(dto.TicketIds),
         };
     }
 
