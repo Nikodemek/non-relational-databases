@@ -50,8 +50,7 @@ public sealed class Orders : UniversalCommonsService<Order>, IOrders
 
         order.Success = true;
 
-        await Task.WhenAll(tickets
-            .Select(t => _tickets.UpdateAsync(t))
+        await Task.WhenAll(tickets.Select(t => _tickets.UpdateAsync(t))
             .Append(CreateAsync(order))
             .Append(_clients.UpdateAsync(client))
         );

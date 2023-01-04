@@ -16,6 +16,8 @@ public abstract class UniversalCommonsService<TEntity> : ICommons<TEntity>, IDis
     {
         this.logger = logger;
         Database = CinemaDb.Db;
+        
+        
     }
 
     public Task<IEnumerable<TEntity>> GetAllAsync()
