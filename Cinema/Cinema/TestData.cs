@@ -86,4 +86,15 @@ public class TestData
         await _ticketService.CreateAsync(Ticket2 with {Id = Generate.Id()});
         await _orderService.CreateAsync(Order1 with {Id = Generate.Id()});
     }
+
+    public async void DeleteData()
+    {
+        await _addressService.DeleteAsync(Address1.Id);
+        await _clientService.DeleteAsync(Client1.Id);
+        await _screeningService.DeleteAsync(Screening1.Id);
+        await _movieService.DeleteAsync(Movie1.Id);
+        await _ticketService.DeleteAsync(Ticket1.Id);
+        await _ticketService.DeleteAsync(Ticket2.Id);
+        await _orderService.DeleteAsync(Order1.Id);
+    }
 }

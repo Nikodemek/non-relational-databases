@@ -99,9 +99,7 @@ public abstract class CommonService<TEntity, TEntityDto> : ICommonService<TEntit
         var dto = await Mapper.ToDto(entity);
         
         return await Table
-            .Where(x => x.Id == id)
-            .Select(x => dto)
-            .Update()
+            .Insert(dto)
             .ExecuteAsync();
     }
 

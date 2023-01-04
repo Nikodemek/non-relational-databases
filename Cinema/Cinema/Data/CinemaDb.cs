@@ -17,12 +17,20 @@ public static class CinemaDb
 
     public static void SetUpConnection(IConfiguration configuration)
     {
-        string hostIpAddress = configuration.GetConnectionString("Cassandra");
-        IEnumerable<int> ports = configuration.GetSection("CassandraNodePorts").Get<IEnumerable<int>>();
+        string hostIpAddress = configuration
+            .GetConnectionString("Cassandra");
+        IEnumerable<int> ports = configuration
+            .GetSection("CassandraNodePorts")
+            .Get<IEnumerable<int>>();
+        
+        SetUpConnection(hostIpAddress, ports);
+    }
 
+    public static void SetUpConnection(string hostIpAddress, IEnumerable<int> ports)
+    {
         IPAddress host = IPAddress.Parse(hostIpAddress);
         IEnumerable<IPEndPoint> endpoints = ports.Select(port => new IPEndPoint(host, port));
-
+        
         _cluster = Cluster.Builder()
             .AddContactPoints(endpoints)
             .WithReconnectionPolicy(new ConstantReconnectionPolicy(1000))
