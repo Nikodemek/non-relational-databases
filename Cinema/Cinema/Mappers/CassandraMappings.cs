@@ -26,6 +26,7 @@ public class CassandraMappings : Mappings
             .Column(x => x.City)
             .Column(x => x.Street)
             .Column(x => x.Number)
+            .ClusteringKey(x => x.Country)
             .PartitionKey(x => x.Id);
     }
 
@@ -40,6 +41,7 @@ public class CassandraMappings : Mappings
             .Column(x => x.AddressId)
             .Column(x => x.AccountBalance)
             .Column(x => x.Archived)
+            .ClusteringKey(x => x.ClientType)
             .PartitionKey(x => x.Id);
     }
 
@@ -49,7 +51,8 @@ public class CassandraMappings : Mappings
             .Column(x => x.Id)
             .Column(x => x.Title)
             .Column(x => x.Length)
-            .Column(x => (int)x.AgeCategory)
+            .Column(x => x.AgeCategory)
+            .ClusteringKey(x => x.Title)
             .PartitionKey(x => x.Id);
     }
 
@@ -59,6 +62,7 @@ public class CassandraMappings : Mappings
             .Column(x => x.Id)
             .Column(x => x.MovieId)
             .Column(x => x.Time)
+            .ClusteringKey(x => x.Id)
             .PartitionKey(x => x.Id);
     }
 
@@ -70,6 +74,7 @@ public class CassandraMappings : Mappings
             .Column(x => x.ScreeningId)
             .Column(x => x.Sold)
             .Column(x => x.Archived)
+            .ClusteringKey(x => x.Archived)
             .PartitionKey(x => x.Id);
     }
 
@@ -82,6 +87,7 @@ public class CassandraMappings : Mappings
             .Column(x => x.FinalPrice)
             .Column(x => x.Success)
             .Column(x => x.TicketIds)
+            .ClusteringKey(x => x.PlacedTime)
             .PartitionKey(x => x.Id);
     }
 }

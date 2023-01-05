@@ -37,7 +37,7 @@ public static class CinemaDb
             .WithDefaultKeyspace(Keyspace)
             .WithApplicationName(AppName)
             .Build();
-        
-        _session = _cluster.Connect(Keyspace);
+
+        _session = _cluster.Connect();
     }
 }

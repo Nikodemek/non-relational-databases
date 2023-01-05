@@ -12,7 +12,7 @@ public static class DbManager
     {
         if (_initialized) return;
         
-        CinemaDb.SetUpConnection("127.0.0.1", new[] {9142, 9242});
+        CinemaDb.SetUpConnection("127.0.0.1", new[] { 9142, 9242 });
         MappingConfiguration.Global.Define<CassandraMappings>();
         
         _initialized = true;

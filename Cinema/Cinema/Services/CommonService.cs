@@ -33,7 +33,9 @@ public abstract class CommonService<TEntity, TEntityDto> : ICommonService<TEntit
 
     public async Task<IEnumerable<TEntity>> GetAllAsync()
     {
-        var result = await Table.ExecuteAsync();
+        var result = await Table
+            .SetConsistencyLevel(ConsistencyLevel.LocalQuorum)
+            .ExecuteAsync();
         
         var list = new List<TEntity>();
         foreach (TEntityDto dto in result)
@@ -49,6 +51,7 @@ public abstract class CommonService<TEntity, TEntityDto> : ICommonService<TEntit
         
         var result = await Table
             .Where(x => idsSet.Contains(x.Id))
+            .SetConsistencyLevel(ConsistencyLevel.LocalQuorum)
             .ExecuteAsync();
         
         var list = new List<TEntity>();
@@ -63,6 +66,7 @@ public abstract class CommonService<TEntity, TEntityDto> : ICommonService<TEntit
     {
         var result = await Table
             .FirstOrDefault(x => x.Id == id)
+            .SetConsistencyLevel(ConsistencyLevel.LocalQuorum)
             .ExecuteAsync();
 
         if (result is null)
@@ -80,6 +84,7 @@ public abstract class CommonService<TEntity, TEntityDto> : ICommonService<TEntit
         
         return await Table
             .Insert(dto)
+            .SetConsistencyLevel(ConsistencyLevel.All)
             .ExecuteAsync();
     }
 
@@ -100,6 +105,7 @@ public abstract class CommonService<TEntity, TEntityDto> : ICommonService<TEntit
         
         return await Table
             .Insert(dto)
+            .SetConsistencyLevel(ConsistencyLevel.LocalQuorum)
             .ExecuteAsync();
     }
 
