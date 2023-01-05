@@ -1,15 +1,11 @@
 ﻿using Cinema.Models.Interfaces;
 using Cinema.Utils;
-using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
 
 namespace Cinema.Models;
 
 public sealed record Ticket : IEntity
 {
-    [BsonId]
-    [BsonRepresentation(BsonType.ObjectId)]
-    public string Id { get; set; } = Generate.BsonId();
+    public Guid Id { get; set; } = Generate.Id();
     public decimal Price { get; set; }
     public Screening? Screening { get; set; }
     public bool Sold { get; set; }

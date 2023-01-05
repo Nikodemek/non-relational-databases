@@ -1,7 +1,7 @@
-﻿using Cinema.Models;
+﻿using Cassandra;
+using Cinema.Models;
 using Cinema.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using MongoDB.Bson;
 
 namespace Cinema.Controllers;
 
@@ -10,23 +10,23 @@ namespace Cinema.Controllers;
 public class TicketController : ControllerBase
 {
     private readonly ILogger<TicketController> _logger;
-    private readonly ITickets _tickets;
+    private readonly ITicketService _ticketService;
 
-    public TicketController(ILogger<TicketController> logger, ITickets tickets)
+    public TicketController(ILogger<TicketController> logger, ITicketService ticketService)
     {
         _logger = logger;
-        _tickets = tickets;
+        _ticketService = ticketService;
     }
     
     [HttpGet]
-    public async Task<IEnumerable<Ticket>> GetAll() => await _tickets.GetAllAsync();
+    public async Task<IActionResult> GetAll() => Ok(await _ticketService.GetAllAsync());
 
-    [HttpGet("{id}")]
-    public async Task<Ticket?> Get(string id) => await _tickets.GetAsync(id);
+    [HttpGet("{id:guid}")]
+    public async Task<IActionResult> Get(Guid id) => Ok(await _ticketService.GetAsync(id));
 
     [HttpPost("Register")]
-    public async Task Register([FromBody] Ticket newTicket) => await _tickets.CreateAsync(newTicket);
+    public async Task<IActionResult> Register([FromBody] Ticket newTicket) => Ok(await _ticketService.CreateAsync(newTicket));
     
-    [HttpDelete("Remove/{id}")]
-    public async Task Remove(string id) => await _tickets.DeleteAsync(id);
+    [HttpDelete("Remove/{id:guid}")]
+    public async Task<IActionResult> Remove(Guid id) => Ok(await _ticketService.DeleteAsync(id));
 }

@@ -1,8 +1,6 @@
 using Cinema.Models;
 using Cinema.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using MongoDB.Bson;
-using MongoDB.Driver;
 
 namespace Cinema.Controllers;
 
@@ -11,30 +9,30 @@ namespace Cinema.Controllers;
 public class ClientController : ControllerBase
 {
     private readonly ILogger<ClientController> _logger;
-    private readonly IClients _clients;
+    private readonly IClientService _clientService;
 
-    public ClientController(ILogger<ClientController> logger, IClients clients)
+    public ClientController(ILogger<ClientController> logger, IClientService clientService)
     {
         _logger = logger;
-        _clients = clients;
+        _clientService = clientService;
     }
 
     [HttpGet]
-    public async Task<IEnumerable<Client>> GetAll() => await _clients.GetAllAsync();
+    public async Task<IActionResult> GetAll() => Ok(await _clientService.GetAllAsync());
 
-    [HttpGet("{id}")]
-    public async Task<Client?> Get(string id) => await _clients.GetAsync(id);
+    [HttpGet("{id:guid}")]
+    public async Task<IActionResult> Get(Guid id) => Ok(await _clientService.GetAsync(id));
 
     [HttpPost("Register")]
-    public async Task Register([FromBody] Client newClient) => await _clients.CreateAsync(newClient);
+    public async Task<IActionResult> Register([FromBody] Client newClient) => Ok(await _clientService.CreateAsync(newClient));
 
     [HttpPut("Update")]
-    public async Task Update([FromBody] Client updatedClient) => await _clients.UpdateAsync(updatedClient);
+    public async Task<IActionResult> Update([FromBody] Client updatedClient) => Ok(await _clientService.UpdateAsync(updatedClient.Id, updatedClient));
 
-    [HttpPut("Archive/{id}")]
-    public async Task Archive(string id) => await _clients.ArchiveAsync(id);
+    [HttpPut("Archive/{id:guid}")]
+    public async Task<IActionResult> Archive(Guid id) => Ok(await _clientService.ArchiveAsync(id));
 
-    [HttpDelete("Remove/{id}")]
-    public async Task Remove(string id) => await _clients.DeleteAsync(id);
+    [HttpDelete("Remove/{id:guid}")]
+    public async Task<IActionResult> Remove(Guid id) => Ok(await _clientService.DeleteAsync(id));
 
 }

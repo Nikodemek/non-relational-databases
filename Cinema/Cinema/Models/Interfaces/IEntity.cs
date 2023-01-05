@@ -1,8 +1,6 @@
-﻿using MongoDB.Bson;
+﻿using Cinema.Models.Dto.Interfaces;
 
 namespace Cinema.Models.Interfaces;
 
-public interface IEntity
-{
-    string Id { get; set; }
-}
+public interface IEntity : IEntityDto
+{ }

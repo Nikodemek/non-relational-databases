@@ -1,12 +1,11 @@
-﻿using MongoDB.Bson;
+﻿using Cassandra;
 
 namespace Cinema.Utils;
 
 public static class Generate
 {
-    public static string BsonId()
+    public static Guid Id()
     {
-        var objectId = ObjectId.GenerateNewId();
-        return objectId.ToString();
+        return TimeUuid.NewId();
     }
 }

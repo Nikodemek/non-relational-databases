@@ -1,38 +1,44 @@
-﻿using MongoDB.Bson;
-using MongoDB.Driver;
+﻿using System.Net;
+using Cassandra;
+using Cassandra.Mapping;
+using ISession = Cassandra.ISession;
 
 namespace Cinema.Data;
 
 public static class CinemaDb
 {
-    private static string? _connectionString;
-    private static string? _databaseName;
+    public const string AppName = "Cinema";
+    public static readonly string Keyspace = AppName.ToLower();
+    
+    private static ICluster? _cluster;
+    private static ISession? _session;
+
+    public static ISession Session => _session ?? throw new ArgumentException("Connection not initialized!");
 
     public static void SetUpConnection(IConfiguration configuration)
     {
-        _connectionString = configuration.GetConnectionString("Mongo.Configuration");
-        _databaseName = configuration.GetConnectionString("Mongo.DatabaseName");
+        string hostIpAddress = configuration
+            .GetConnectionString("Cassandra");
+        IEnumerable<int> ports = configuration
+            .GetSection("CassandraNodePorts")
+            .Get<IEnumerable<int>>();
+        
+        SetUpConnection(hostIpAddress, ports);
     }
-    
-    public static void SetUpConnection(string connectionString, string databaseName)
+
+    public static void SetUpConnection(string hostIpAddress, IEnumerable<int> ports)
     {
-        _connectionString = connectionString;
-        _databaseName = databaseName;
+        IPAddress host = IPAddress.Parse(hostIpAddress);
+        IEnumerable<IPEndPoint> endpoints = ports.Select(port => new IPEndPoint(host, port));
+        
+        _cluster = Cluster.Builder()
+            .AddContactPoints(endpoints)
+            .WithLoadBalancingPolicy(new DefaultLoadBalancingPolicy("datacenter1"))
+            .WithReconnectionPolicy(new ConstantReconnectionPolicy(1000))
+            .WithDefaultKeyspace(Keyspace)
+            .WithApplicationName(AppName)
+            .Build();
+
+        _session = _cluster.Connect();
     }
-
-    public static IMongoDatabase Database
-    {
-        get
-        {
-            if (_database is not null) return _database;
-
-            if (_connectionString is null || _databaseName is null)
-                throw new Exception("MongoDB connection info was not initialized!");
-
-            var client = new MongoClient(_connectionString);
-            return _database = client.GetDatabase(_databaseName);
-        }
-    }
-
-    private static IMongoDatabase? _database;
 }

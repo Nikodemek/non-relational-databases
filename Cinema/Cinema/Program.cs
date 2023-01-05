@@ -1,5 +1,11 @@
+using Cassandra.Mapping;
 using Cinema;
 using Cinema.Data;
+using Cinema.Mappers;
+using Cinema.Mappers.Interfaces;
+using Cinema.Models;
+using Cinema.Models.Dto;
+using Cinema.Models.Interfaces;
 using Cinema.Services;
 using Cinema.Services.Interfaces;
 
@@ -15,19 +21,23 @@ services.AddEndpointsApiExplorer();
 services.AddSwaggerGen();
 
 CinemaDb.SetUpConnection(config);
+MappingConfiguration.Global.Define<CassandraMappings>();
+
 services
-    .AddSingleton<IClients, Clients>()
-    .AddSingleton<IAddresses, Addresses>()
-    .AddSingleton<IMovies, Movies>()
-    .AddSingleton<IScreenings, Screenings>()
-    .AddSingleton<ITickets, Tickets>()
-    .AddSingleton<IOrders, Orders>();
+    .AddSingleton<IAddressService, AddressService>()
+    .AddSingleton<IClientService, ClientService>()
+    .AddSingleton<IMovieService, MovieService>()
+    .AddSingleton<IScreeningService, ScreeningService>()
+    .AddSingleton<ITicketService, TicketService>()
+    .AddSingleton<IOrderService, OrderService>();
+services
+    .AddSingleton<IEntityMapper<Address, AddressDto>, AddressMapper>()
+    .AddSingleton<IEntityMapper<Client, ClientDto>, ClientMapper>()
+    .AddSingleton<IEntityMapper<Movie, MovieDto>, MovieMapper>()
+    .AddSingleton<IEntityMapper<Screening, ScreeningDto>, ScreeningMapper>()
+    .AddSingleton<IEntityMapper<Ticket, TicketDto>, TicketMapper>()
+    .AddSingleton<IEntityMapper<Order, OrderDto>, OrderMapper>();
 services.AddSingleton<TestData>();
-services.AddStackExchangeRedisCache(options =>
-{
-    options.Configuration = config.GetConnectionString("Redis.Configuration");
-    options.InstanceName = config.GetConnectionString("Redis.InstanceName");
-});
 
 var app = builder.Build();
 
@@ -44,7 +54,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-var testData = app.Services.GetService<TestData>();
-testData?.InsertData();
+/*var testData = app.Services.GetService<TestData>();
+testData?.InsertData();*/
 
 app.Run();

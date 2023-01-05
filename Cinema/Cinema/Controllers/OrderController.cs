@@ -1,7 +1,6 @@
 ﻿using Cinema.Models;
 using Cinema.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using MongoDB.Bson;
 
 namespace Cinema.Controllers;
 
@@ -10,26 +9,26 @@ namespace Cinema.Controllers;
 public class OrderController : ControllerBase
 {
     private readonly ILogger<OrderController> _logger;
-    private readonly IOrders _orders;
+    private readonly IOrderService _orderService;
 
-    public OrderController(ILogger<OrderController> logger, IOrders orders)
+    public OrderController(ILogger<OrderController> logger, IOrderService orderService)
     {
         _logger = logger;
-        _orders = orders;
+        _orderService = orderService;
     }
     
     [HttpGet]
-    public async Task<IEnumerable<Order>> GetAll() => await _orders.GetAllAsync();
+    public async Task<IActionResult> GetAll() => Ok(await _orderService.GetAllAsync());
 
-    [HttpGet("{id}")]
-    public async Task<Order?> Get(string id) => await _orders.GetAsync(id);
+    [HttpGet("{id:guid}")]
+    public async Task<IActionResult> Get(Guid id) => Ok(await _orderService.GetAsync(id));
 
     [HttpPost("Register")]
-    public async Task Register([FromBody] Order newTicket) => await _orders.CreateAsync(newTicket);
+    public async Task<IActionResult> Register([FromBody] Order newTicket) => Ok(await _orderService.CreateAsync(newTicket));
 
-    [HttpPost("Place/{clientId}")]
-    public async Task<Order> Place([FromRoute] string clientId, [FromBody] string[] ticketIds) => await _orders.PlaceAsync(clientId, ticketIds);
+    [HttpPost("Place/{clientId:guid}")]
+    public async Task<IActionResult> Place([FromRoute] Guid clientId, [FromBody] Guid[] ticketIds) => Ok(await _orderService.PlaceAsync(clientId, ticketIds));
     
-    [HttpDelete("Remove/{id}")]
-    public async Task Remove(string id) => await _orders.DeleteAsync(id);
+    [HttpDelete("Remove/{id:guid}")]
+    public async Task<IActionResult> Remove(Guid id) => Ok(await _orderService.DeleteAsync(id));
 }
