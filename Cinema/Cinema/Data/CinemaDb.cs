@@ -33,6 +33,7 @@ public static class CinemaDb
         
         _cluster = Cluster.Builder()
             .AddContactPoints(endpoints)
+            .WithLoadBalancingPolicy(new DefaultLoadBalancingPolicy("datacenter1"))
             .WithReconnectionPolicy(new ConstantReconnectionPolicy(1000))
             .WithDefaultKeyspace(Keyspace)
             .WithApplicationName(AppName)

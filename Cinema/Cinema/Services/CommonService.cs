@@ -13,6 +13,9 @@ public abstract class CommonService<TEntity, TEntityDto> : ICommonService<TEntit
     where TEntity : class, IEntity
     where TEntityDto: class, IEntityDto
 {
+    private const ConsistencyLevel ReadCl = ConsistencyLevel.One;
+    private const ConsistencyLevel WriteCl = ConsistencyLevel.Two;
+    
     private readonly ILogger<CommonService<TEntity, TEntityDto>> _logger;
 
     protected readonly Table<TEntityDto> Table;
@@ -34,7 +37,7 @@ public abstract class CommonService<TEntity, TEntityDto> : ICommonService<TEntit
     public async Task<IEnumerable<TEntity>> GetAllAsync()
     {
         var result = await Table
-            .SetConsistencyLevel(ConsistencyLevel.LocalQuorum)
+            .SetConsistencyLevel(ReadCl)
             .ExecuteAsync();
         
         var list = new List<TEntity>();
@@ -51,7 +54,7 @@ public abstract class CommonService<TEntity, TEntityDto> : ICommonService<TEntit
         
         var result = await Table
             .Where(x => idsSet.Contains(x.Id))
-            .SetConsistencyLevel(ConsistencyLevel.LocalQuorum)
+            .SetConsistencyLevel(ReadCl)
             .ExecuteAsync();
         
         var list = new List<TEntity>();
@@ -66,7 +69,7 @@ public abstract class CommonService<TEntity, TEntityDto> : ICommonService<TEntit
     {
         var result = await Table
             .FirstOrDefault(x => x.Id == id)
-            .SetConsistencyLevel(ConsistencyLevel.LocalQuorum)
+            .SetConsistencyLevel(ReadCl)
             .ExecuteAsync();
 
         if (result is null)
@@ -84,7 +87,7 @@ public abstract class CommonService<TEntity, TEntityDto> : ICommonService<TEntit
         
         return await Table
             .Insert(dto)
-            .SetConsistencyLevel(ConsistencyLevel.All)
+            .SetConsistencyLevel(WriteCl)
             .ExecuteAsync();
     }
 
@@ -105,7 +108,7 @@ public abstract class CommonService<TEntity, TEntityDto> : ICommonService<TEntit
         
         return await Table
             .Insert(dto)
-            .SetConsistencyLevel(ConsistencyLevel.LocalQuorum)
+            .SetConsistencyLevel(WriteCl)
             .ExecuteAsync();
     }
 

@@ -62,7 +62,7 @@ public class CassandraMappings : Mappings
             .Column(x => x.Id)
             .Column(x => x.MovieId)
             .Column(x => x.Time)
-            .ClusteringKey(x => x.Id)
+            .ClusteringKey(x => x.Time)
             .PartitionKey(x => x.Id);
     }
 
