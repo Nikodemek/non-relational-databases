@@ -6,8 +6,8 @@ namespace Cinema.Repository;
 
 public static class CinemaConnection
 {
-    const string ConnectionStringArgName = "ConnectionString";
-    const string DatabaseNameArgName = "DatabaseName";
+    private const string ConnectionStringArgName = "ConnectionString";
+    private const string DatabaseNameArgName = "DatabaseName";
     
     private static string? _connectionString;
     private static string? _databaseName;

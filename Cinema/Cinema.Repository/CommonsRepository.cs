@@ -4,7 +4,8 @@ using MongoDB.Driver;
 
 namespace Cinema.Repository;
 
-public abstract class CommonsRepository<TEntity> : MongoCollection<TEntity>, ICommonsRepository<TEntity> where TEntity : IMongoEntity<TEntity>
+public abstract class CommonsRepository<TEntity> : MongoCollection<TEntity>, ICommonsRepository<TEntity>
+    where TEntity : IMongoEntity<TEntity>
 {
     public Task<List<TEntity>> GetAllAsync()
     {

@@ -18,14 +18,14 @@ public class ScreeningController : ControllerBase
     }
     
     [HttpGet]
-    public async Task<IEnumerable<Screening>> GetAll() => await _screeningService.GetAllAsync();
+    public async Task<IActionResult> GetAll() => Ok(await _screeningService.GetAllAsync());
 
     [HttpGet("{id}")]
-    public async Task<Screening> Get(string id) => await _screeningService.GetAsync(id);
+    public async Task<IActionResult> Get(string id) => Ok(await _screeningService.GetAsync(id));
 
-    [HttpPost("")]
+    [HttpPost]
     public async Task Register([FromBody] Screening newScreening) => await _screeningService.CreateAsync(newScreening);
     
     [HttpDelete("{id}")]
-    public async Task Remove(string id) => await _screeningService.RemoveAsync(id);
+    public async Task<IActionResult> Remove(string id) => Ok(await _screeningService.RemoveAsync(id));
 }
