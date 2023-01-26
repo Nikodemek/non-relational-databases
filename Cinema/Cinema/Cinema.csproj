@@ -18,7 +18,13 @@
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
         <PackageReference Include="MongoDB.Driver" Version="2.18.0" />
+        <PackageReference Include="Parsevoir" Version="1.1.2" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Cinema.Entity\Cinema.Entity.csproj" />
+      <ProjectReference Include="..\Cinema.Repository\Cinema.Repository.csproj" />
     </ItemGroup>
 
 </Project>

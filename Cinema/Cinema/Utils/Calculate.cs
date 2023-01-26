@@ -1,4 +1,5 @@
-﻿using Cinema.Models;
+﻿using Cinema.Entity;
+using Cinema.Entity.Enums;
 
 namespace Cinema.Utils;
 

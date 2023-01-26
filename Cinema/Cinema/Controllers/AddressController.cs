@@ -1,7 +1,6 @@
-﻿using Cinema.Models;
+﻿using Cinema.Entity;
 using Cinema.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using MongoDB.Bson;
 
 namespace Cinema.Controllers;
 
@@ -10,23 +9,23 @@ namespace Cinema.Controllers;
 public class AddressController : ControllerBase
 {
     private readonly ILogger<AddressController> _logger;
-    private readonly IAddresses _addresses;
+    private readonly IAddressService _addressService;
 
-    public AddressController(ILogger<AddressController> logger, IAddresses addresses)
+    public AddressController(ILogger<AddressController> logger, IAddressService addressService)
     {
         _logger = logger;
-        _addresses = addresses;
+        _addressService = addressService;
     }
     
     [HttpGet]
-    public async Task<IEnumerable<Address>> GetAll() => await _addresses.GetAllAsync();
+    public async Task<IEnumerable<Address>> GetAll() => await _addressService.GetAllAsync();
 
     [HttpGet("{id}")]
-    public async Task<Address> Get(string id) => await _addresses.GetAsync(id);
+    public async Task<Address> Get(string id) => await _addressService.GetAsync(id);
 
     [HttpPost("Register")]
-    public async Task Register([FromBody] Address newAddress) => await _addresses.CreateAsync(newAddress);
+    public async Task Register([FromBody] Address newAddress) => await _addressService.CreateAsync(newAddress);
     
     [HttpDelete("Remove/{id}")]
-    public async Task Remove(string id) => await _addresses.RemoveAsync(id);
+    public async Task Remove(string id) => await _addressService.RemoveAsync(id);
 }
