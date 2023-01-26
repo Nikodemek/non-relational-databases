@@ -5,6 +5,6 @@ namespace Cinema.Services.Interfaces;
 
 public interface IClientService : ICommonService<Client>
 {
-    Task<ReplaceOneResult> UpdateAsync(Client client);
+    Task<ReplaceOneResult> UpdateAsync(string id, Client client);
     Task<ReplaceOneResult> ArchiveAsync(string id);
 }

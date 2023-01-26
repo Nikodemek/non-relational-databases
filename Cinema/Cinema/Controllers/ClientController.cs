@@ -24,16 +24,16 @@ public class ClientController : ControllerBase
     [HttpGet("{id}")]
     public async Task<Client> Get(string id) => await _clientService.GetAsync(id);
 
-    [HttpPost("Register")]
+    [HttpPost]
     public async Task Register([FromBody] Client newClient) => await _clientService.CreateAsync(newClient);
 
-    [HttpPut("Update")]
-    public async Task Update([FromBody] Client updatedClient) => await _clientService.UpdateAsync(updatedClient);
+    [HttpPut("{id}")]
+    public async Task Update(string id, [FromBody] Client updatedClient) => await _clientService.UpdateAsync(id, updatedClient);
 
     [HttpPut("Archive/{id}")]
     public async Task<ReplaceOneResult> Archive(string id) => await _clientService.ArchiveAsync(id);
 
-    [HttpDelete("Remove/{id}")]
+    [HttpDelete("{id}")]
     public async Task Remove(string id) => await _clientService.RemoveAsync(id);
 
 }

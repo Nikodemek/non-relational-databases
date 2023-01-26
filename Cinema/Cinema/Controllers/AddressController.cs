@@ -23,9 +23,9 @@ public class AddressController : ControllerBase
     [HttpGet("{id}")]
     public async Task<Address> Get(string id) => await _addressService.GetAsync(id);
 
-    [HttpPost("Register")]
+    [HttpPost("")]
     public async Task Register([FromBody] Address newAddress) => await _addressService.CreateAsync(newAddress);
     
-    [HttpDelete("Remove/{id}")]
+    [HttpDelete("{id}")]
     public async Task Remove(string id) => await _addressService.RemoveAsync(id);
 }

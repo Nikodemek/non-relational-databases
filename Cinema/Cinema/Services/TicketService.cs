@@ -20,9 +20,9 @@ public sealed class TicketService : CommonService<Ticket>, ITicketService
         return _ticketsRepository.GetWithIdsAsync(ids);
     }
 
-    public Task<ReplaceOneResult> UpdateAsync(Ticket ticket)
+    public Task<ReplaceOneResult> UpdateAsync(string id, Ticket ticket)
     {
-        return _ticketsRepository.UpdateAsync(ticket);
+        return _ticketsRepository.UpdateAsync(id, ticket);
     }
 
     public Task<ReplaceOneResult> ArchiveAsync(string id)

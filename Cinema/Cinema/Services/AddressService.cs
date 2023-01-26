@@ -6,7 +6,7 @@ namespace Cinema.Services;
 
 public class AddressService : CommonService<Address>, IAddressService
 {
-    public AddressService(ICommonsRepository<Address> clientRepository)
+    public AddressService(IAddressesRepository clientRepository)
         : base(clientRepository)
     { }
 }

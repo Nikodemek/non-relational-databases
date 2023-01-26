@@ -23,9 +23,9 @@ public class MovieController : ControllerBase
     [HttpGet("{id}")]
     public async Task<Movie> Get(string id) => await _movieService.GetAsync(id);
 
-    [HttpPost("Register")]
+    [HttpPost]
     public async Task Register([FromBody] Movie newMovie) => await _movieService.CreateAsync(newMovie);
     
-    [HttpDelete("Remove/{id}")]
+    [HttpDelete("{id}")]
     public async Task Remove(string id) => await _movieService.RemoveAsync(id);
 }

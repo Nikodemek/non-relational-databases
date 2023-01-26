@@ -8,14 +8,18 @@ public sealed class TicketsRepository : CommonsRepository<Ticket>, ITicketsRepos
 {
     public Task<IAsyncCursor<Ticket>> GetWithIdsAsync(ICollection<string> ids)
     {
+        var idsSet = ids.ToHashSet();
+        
         return Collection
-            .FindAsync(t => ids.Contains(t.Id));
+            .FindAsync(t => idsSet.Contains(t.Id));
     }
 
-    public Task<ReplaceOneResult> UpdateAsync(Ticket ticket)
+    public Task<ReplaceOneResult> UpdateAsync(string id, Ticket ticket)
     {
+        ticket.Id = id;
+        
         return Collection
-            .ReplaceOneAsync(t => t.Id == ticket.Id, ticket);
+            .ReplaceOneAsync(t => t.Id == id, ticket);
     }
 
     public async Task<ReplaceOneResult> ArchiveAsync(string id)

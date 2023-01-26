@@ -23,9 +23,12 @@ public class TicketController : ControllerBase
     [HttpGet("{id}")]
     public async Task<Ticket> Get(string id) => await _ticketService.GetAsync(id);
 
-    [HttpPost("Register")]
+    [HttpPost("")]
     public async Task Register([FromBody] Ticket newTicket) => await _ticketService.CreateAsync(newTicket);
+
+    [HttpPut]
+    public async Task Update(string id, [FromBody] Ticket updatedTicket) => await _ticketService.UpdateAsync(id, updatedTicket);
     
-    [HttpDelete("Remove/{id}")]
+    [HttpDelete("{id}")]
     public async Task Remove(string id) => await _ticketService.RemoveAsync(id);
 }

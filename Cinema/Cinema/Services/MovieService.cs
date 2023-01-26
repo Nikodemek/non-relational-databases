@@ -6,7 +6,7 @@ namespace Cinema.Services;
 
 public sealed class MovieService : CommonService<Movie>, IMovieService
 {
-    public MovieService(ICommonsRepository<Movie> clientRepository)
+    public MovieService(IMoviesRepository clientRepository)
         : base(clientRepository)
     { }
 }

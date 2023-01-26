@@ -52,9 +52,9 @@ public sealed class OrderService : CommonService<Order>, IOrderService
         order.Success = true;
 
         await Task.WhenAll(tickets
-            .Select(t => _ticketsRepository.UpdateAsync(t))
+            .Select(t => _ticketsRepository.UpdateAsync(t.Id, t))
             .Append(CreateAsync(order))
-            .Append(_clientsRepository.UpdateAsync(client))
+            .Append(_clientsRepository.UpdateAsync(client.Id, client))
         );
         
         return order;

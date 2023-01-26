@@ -15,9 +15,9 @@ public sealed class ClientService : CommonService<Client>, IClientService
         _clientsRepository = clientsRepository;
     }
     
-    public Task<ReplaceOneResult> UpdateAsync(Client client)
+    public Task<ReplaceOneResult> UpdateAsync(string id, Client client)
     {
-        return _clientsRepository.UpdateAsync(client);
+        return _clientsRepository.UpdateAsync(id, client);
     }
 
     public Task<ReplaceOneResult> ArchiveAsync(string id)

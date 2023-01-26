@@ -3,7 +3,6 @@ using Cinema.Repository;
 using Cinema.Repository.Interfaces;
 using Cinema.Services;
 using Cinema.Services.Interfaces;
-using Parsevoir;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,7 +15,6 @@ services.AddEndpointsApiExplorer();
 services.AddSwaggerGen();
 
 RegisterRepositories(services);
-
 RegisterServices(services);
 
 services.AddSingleton<TestData>();

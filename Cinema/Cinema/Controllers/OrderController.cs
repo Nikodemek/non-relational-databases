@@ -23,12 +23,12 @@ public class OrderController : ControllerBase
     [HttpGet("{id}")]
     public async Task<Order> Get(string id) => await _orderService.GetAsync(id);
 
-    [HttpPost("Register")]
+    [HttpPost("")]
     public async Task Register([FromBody] Order newTicket) => await _orderService.CreateAsync(newTicket);
 
     [HttpPost("Place/{clientId}")]
     public async Task<Order> Place([FromRoute] string clientId, [FromBody] string[] ticketIds) => await _orderService.PlaceAsync(clientId, ticketIds);
     
-    [HttpDelete("Remove/{id}")]
+    [HttpDelete("{id}")]
     public async Task Remove(string id) => await _orderService.RemoveAsync(id);
 }

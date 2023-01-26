@@ -23,9 +23,9 @@ public class ScreeningController : ControllerBase
     [HttpGet("{id}")]
     public async Task<Screening> Get(string id) => await _screeningService.GetAsync(id);
 
-    [HttpPost("Register")]
+    [HttpPost("")]
     public async Task Register([FromBody] Screening newScreening) => await _screeningService.CreateAsync(newScreening);
     
-    [HttpDelete("Remove/{id}")]
+    [HttpDelete("{id}")]
     public async Task Remove(string id) => await _screeningService.RemoveAsync(id);
 }
