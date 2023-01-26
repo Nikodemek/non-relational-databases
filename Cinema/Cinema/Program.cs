@@ -33,8 +33,8 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-/*var testData = app.Services.GetService<TestData>();
-testData?.InsertData();*/
+var testData = app.Services.GetService<TestData>();
+testData?.InsertData();
 
 app.Run();
 

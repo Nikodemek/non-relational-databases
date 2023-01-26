@@ -5,7 +5,8 @@ using MongoDB.Driver;
 
 namespace Cinema.Services;
 
-public abstract class CommonService<TEntity> : ICommonService<TEntity> where TEntity : IMongoEntity<TEntity>
+public abstract class CommonService<TEntity> : ICommonService<TEntity>
+    where TEntity : IMongoEntity<TEntity>
 {
     private readonly ICommonsRepository<TEntity> _clientRepository;
 

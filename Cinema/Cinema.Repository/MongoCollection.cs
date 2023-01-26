@@ -6,7 +6,7 @@ namespace Cinema.Repository;
 public abstract class MongoCollection<TEntity>
     where TEntity : IMongoEntity<TEntity>
 {
-    private static readonly string CollectionName = typeof(TEntity).Name;
+    private static readonly string CollectionName = $"{typeof(TEntity).Name}Collection";
 
     protected IMongoCollection<TEntity> Collection => CinemaConnection.Database.GetCollection<TEntity>(CollectionName);
 }
