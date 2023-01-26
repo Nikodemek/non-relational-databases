@@ -5,12 +5,9 @@ using Cinema.Services;
 using Cinema.Services.Interfaces;
 using Parsevoir;
 
-const string ConnectionStringArgName = "ConnectionString";
-const string DatabaseNameArggName = "DatabaseName";
-
 var builder = WebApplication.CreateBuilder(args);
 
-ConfigureDatabase(args, builder.Configuration);
+CinemaConnection.Configure(args, builder.Configuration);
 
 var services = builder.Services;
 services.AddControllers();
@@ -62,37 +59,6 @@ void RegisterServices(IServiceCollection serviceCollection)
     serviceCollection.AddTransient<IScreeningService, ScreeningService>();
     serviceCollection.AddTransient<ITicketService, TicketService>();
     serviceCollection.AddTransient<IOrderService, OrderService>();
-}
-
-void ConfigureDatabase(string[] arguments, ConfigurationManager configurationManager)
-{
-    var (connectionString, databaseName) = ParseDatabaseArgs(arguments);
-
-    connectionString ??= configurationManager[ConnectionStringArgName];
-    databaseName ??= configurationManager[DatabaseNameArggName];
-    
-    CinemaConnection.Configure(connectionString, databaseName);
-}
-
-(string? ConnectionString, string? DatabaseName) ParseDatabaseArgs(string[] arguments)
-{
-    string? connectionString = GetValue(ConnectionStringArgName);
-    string? databaseName = GetValue(DatabaseNameArggName);
-
-    return (connectionString, databaseName);
-
-    string info = "Marcin ma 48 lat, a Kasia ma 3 jabłek";
-    string template = "Marcin ma {} lat, a Kasia ma {} jabłek";
-
-    var (marcinAge, appleCount) = Parse.Single<int, int>(info, template);
-    
-    string? GetValue(string argName)
-    {
-        string template = $"{argName}={{}}";
-        string? value = arguments.SingleOrDefault(s => s.StartsWith(argName));
-
-        return value is null ? null : Parse.Single<string>(value, template);
-    }
 }
 
 
