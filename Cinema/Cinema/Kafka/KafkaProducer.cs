@@ -1,9 +1,12 @@
-﻿using System.Text.Json;
+﻿using System;
+using System.Text.Json;
+using System.Threading.Tasks;
 using Cinema.Entity.Interfaces;
 using Cinema.Entity.Kafka;
 using Cinema.Kafka.Interfaces;
 using Cinema.Repository;
 using Confluent.Kafka;
+using Microsoft.Extensions.Configuration;
 
 namespace Cinema.Kafka;
 

@@ -1,8 +1,12 @@
-﻿using System.Text.Json;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
 using Cinema.Entity;
+using Cinema.Entity.Enums;
 using Cinema.Kafka.Interfaces;
 using Cinema.Repository.Interfaces;
 using Cinema.Services.Interfaces;
+using Cinema.Utils;
 using MongoDB.Driver;
 
 namespace Cinema.Services;
@@ -38,7 +42,7 @@ internal sealed class OrderService : CommonService<Order>, IOrderService, IDispo
             Success = false,
         };
         
-        /*if (client.Archived || tickets.Any(t => t.Archived || t.Sold)) return order;
+        if (client.Archived || tickets.Any(t => t.Archived || t.Sold)) return order;
 
         int clientAge = Calculate.Age(client);
         if (tickets.Any(t => clientAge < (int) (t.Screening?.Movie?.AgeCategory ?? AgeCategory.G))) return order;
@@ -58,7 +62,7 @@ internal sealed class OrderService : CommonService<Order>, IOrderService, IDispo
             .Select(t => _ticketsRepository.UpdateAsync(t.Id, t))
             .Append(CreateAsync(order))
             .Append(_clientsRepository.UpdateAsync(client.Id, client))
-        );*/
+        );
 
         var result = await _kafkaProducer.ProduceAsync(order);
         Console.WriteLine($"Message successfully sent! Key: {result.Key}");

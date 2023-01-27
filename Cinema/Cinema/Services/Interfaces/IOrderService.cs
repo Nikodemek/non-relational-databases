@@ -1,4 +1,5 @@
-﻿using Cinema.Entity;
+﻿using System.Threading.Tasks;
+using Cinema.Entity;
 
 namespace Cinema.Services.Interfaces;
 

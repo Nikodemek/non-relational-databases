@@ -1,6 +1,8 @@
-﻿using Cinema.Entity;
+﻿using System.Threading.Tasks;
+using Cinema.Entity;
 using Cinema.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace Cinema.Controllers;
 

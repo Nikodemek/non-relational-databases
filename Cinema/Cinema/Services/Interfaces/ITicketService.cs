@@ -1,4 +1,6 @@
-﻿using Cinema.Entity;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using Cinema.Entity;
 using MongoDB.Driver;
 
 namespace Cinema.Services.Interfaces;

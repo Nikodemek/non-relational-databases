@@ -1,4 +1,7 @@
-﻿using Cinema.Entity.Interfaces;
+﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
+using Cinema.Entity.Interfaces;
 
 namespace Cinema.Consumer.Kafka.Interfaces;
 

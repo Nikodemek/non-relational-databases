@@ -1,4 +1,7 @@
-﻿using System.Text.Json;
+﻿using System;
+using System.Text.Json;
+using System.Threading;
+using System.Threading.Tasks;
 using Cinema.Consumer.Kafka;
 using Cinema.Consumer.Kafka.Interfaces;
 using Cinema.Entity;

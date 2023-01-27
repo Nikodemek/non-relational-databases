@@ -1,4 +1,5 @@
-﻿using Cinema.Entity;
+﻿using System;
+using Cinema.Entity;
 using Cinema.Entity.Enums;
 using Cinema.Services.Interfaces;
 

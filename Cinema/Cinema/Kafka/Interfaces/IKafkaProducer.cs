@@ -1,4 +1,6 @@
-﻿using Cinema.Entity;
+﻿using System;
+using System.Threading.Tasks;
+using Cinema.Entity;
 using Confluent.Kafka;
 
 namespace Cinema.Kafka.Interfaces;

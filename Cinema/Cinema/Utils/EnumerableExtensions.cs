@@ -1,4 +1,7 @@
-﻿namespace Cinema.Utils;
+﻿using System;
+using System.Collections.Generic;
+
+namespace Cinema.Utils;
 
 public static class EnumerableExtensions
 {

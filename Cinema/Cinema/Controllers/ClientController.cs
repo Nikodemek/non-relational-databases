@@ -1,6 +1,9 @@
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Cinema.Entity;
 using Cinema.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using MongoDB.Driver;
 
 namespace Cinema.Controllers;

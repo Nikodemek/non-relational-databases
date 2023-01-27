@@ -1,4 +1,5 @@
-﻿using Parsevoir;
+﻿using System.Linq;
+using Parsevoir;
 
 namespace Cinema.Consumer.Kafka;
 

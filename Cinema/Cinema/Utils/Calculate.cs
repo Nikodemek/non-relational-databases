@@ -1,4 +1,7 @@
-﻿using Cinema.Entity;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Cinema.Entity;
 using Cinema.Entity.Enums;
 
 namespace Cinema.Utils;
