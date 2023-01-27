@@ -1,22 +1,32 @@
-﻿using Cassandra;
-using Cinema.Data;
-using Cinema.Mappers.Interfaces;
-using Cinema.Models;
-using Cinema.Models.Dto;
+﻿using Cinema.Entity;
+using Cinema.Repository.Interfaces;
 using Cinema.Services.Interfaces;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.Distributed;
+using MongoDB.Driver;
 
 namespace Cinema.Services;
 
-public sealed class TicketService : CommonService<Ticket, TicketDto>, ITicketService
+public sealed class TicketService : CommonService<Ticket>, ITicketService
 {
-    public TicketService(ILogger<TicketService> logger, IEntityMapper<Ticket, TicketDto> mapper)
-        : base(logger, mapper)
-    { }
+    private readonly ITicketsRepository _ticketsRepository;
 
-    public async Task<RowSet> ArchiveAsync(Guid id)
+    public TicketService(ITicketsRepository ticketsRepository)
+        : base(ticketsRepository)
     {
-        return await UpdateAsync(id, ticket => ticket.Archived = true);
+        _ticketsRepository = ticketsRepository;
+    }
+    
+    public Task<IAsyncCursor<Ticket>> GetWithIdsAsync(ICollection<string> ids)
+    {
+        return _ticketsRepository.GetWithIdsAsync(ids);
+    }
+
+    public Task<ReplaceOneResult> UpdateAsync(string id, Ticket ticket)
+    {
+        return _ticketsRepository.UpdateAsync(id, ticket);
+    }
+
+    public Task<ReplaceOneResult> ArchiveAsync(string id)
+    {
+        return _ticketsRepository.ArchiveAsync(id);
     }
 }

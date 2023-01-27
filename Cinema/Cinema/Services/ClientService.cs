@@ -1,19 +1,27 @@
-﻿using Cassandra;
-using Cinema.Mappers.Interfaces;
-using Cinema.Models;
-using Cinema.Models.Dto;
+﻿using Cinema.Entity;
+using Cinema.Repository.Interfaces;
 using Cinema.Services.Interfaces;
+using MongoDB.Driver;
 
 namespace Cinema.Services;
 
-public sealed class ClientService : CommonService<Client, ClientDto>, IClientService
+public sealed class ClientService : CommonService<Client>, IClientService
 {
-    public ClientService(ILogger<ClientService> logger, IEntityMapper<Client, ClientDto> mapper)
-        : base(logger, mapper)
-    { }
-
-    public async Task<RowSet> ArchiveAsync(Guid id)
+    private readonly IClientsRepository _clientsRepository;
+    
+    public ClientService(IClientsRepository clientsRepository)
+        : base(clientsRepository)
     {
-        return await UpdateAsync(id, client => client.Archived = true);
+        _clientsRepository = clientsRepository;
+    }
+    
+    public Task<ReplaceOneResult> UpdateAsync(string id, Client client)
+    {
+        return _clientsRepository.UpdateAsync(id, client);
+    }
+
+    public Task<ReplaceOneResult> ArchiveAsync(string id)
+    {
+        return _clientsRepository.ArchiveAsync(id);
     }
 }

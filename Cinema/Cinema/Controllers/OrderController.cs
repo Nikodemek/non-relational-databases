@@ -1,4 +1,4 @@
-﻿using Cinema.Models;
+﻿using Cinema.Entity;
 using Cinema.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,19 +16,19 @@ public class OrderController : ControllerBase
         _logger = logger;
         _orderService = orderService;
     }
-    
+
     [HttpGet]
     public async Task<IActionResult> GetAll() => Ok(await _orderService.GetAllAsync());
 
-    [HttpGet("{id:guid}")]
-    public async Task<IActionResult> Get(Guid id) => Ok(await _orderService.GetAsync(id));
+    [HttpGet("{id}")]
+    public async Task<IActionResult> Get(string id) => Ok(await _orderService.GetAsync(id));
 
-    [HttpPost("Register")]
-    public async Task<IActionResult> Register([FromBody] Order newTicket) => Ok(await _orderService.CreateAsync(newTicket));
+    [HttpPost]
+    public async Task Register([FromBody] Order newOrder) => await _orderService.CreateAsync(newOrder);
 
-    [HttpPost("Place/{clientId:guid}")]
-    public async Task<IActionResult> Place([FromRoute] Guid clientId, [FromBody] Guid[] ticketIds) => Ok(await _orderService.PlaceAsync(clientId, ticketIds));
+    [HttpPost("Place/{clientId}")]
+    public async Task<IActionResult> Place([FromRoute] string clientId, [FromBody] string[] ticketIds) => Ok(await _orderService.PlaceAsync(clientId, ticketIds));
     
-    [HttpDelete("Remove/{id:guid}")]
-    public async Task<IActionResult> Remove(Guid id) => Ok(await _orderService.DeleteAsync(id));
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Remove(string id) => Ok(await _orderService.RemoveAsync(id));
 }

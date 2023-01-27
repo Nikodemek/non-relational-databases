@@ -1,14 +1,12 @@
-﻿using Cinema.Mappers.Interfaces;
-using Cinema.Models;
-using Cinema.Models.Dto;
+﻿using Cinema.Entity;
+using Cinema.Repository.Interfaces;
 using Cinema.Services.Interfaces;
-using Microsoft.Extensions.Caching.Distributed;
 
 namespace Cinema.Services;
 
-public sealed class ScreeningService : CommonService<Screening, ScreeningDto>, IScreeningService
+public sealed class ScreeningService : CommonService<Screening>, IScreeningService
 {
-    public ScreeningService(ILogger<ScreeningService> logger, IEntityMapper<Screening, ScreeningDto> mapper)
-        : base(logger, mapper)
+    public ScreeningService(IScreeningsRepository clientRepository)
+        : base(clientRepository)
     { }
 }

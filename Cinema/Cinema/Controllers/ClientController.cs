@@ -1,6 +1,7 @@
-using Cinema.Models;
+using Cinema.Entity;
 using Cinema.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Driver;
 
 namespace Cinema.Controllers;
 
@@ -18,21 +19,21 @@ public class ClientController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAll() => Ok(await _clientService.GetAllAsync());
+    public async Task<IEnumerable<Client>> GetAll() => await _clientService.GetAllAsync();
 
-    [HttpGet("{id:guid}")]
-    public async Task<IActionResult> Get(Guid id) => Ok(await _clientService.GetAsync(id));
+    [HttpGet("{id}")]
+    public async Task<Client> Get(string id) => await _clientService.GetAsync(id);
 
-    [HttpPost("Register")]
-    public async Task<IActionResult> Register([FromBody] Client newClient) => Ok(await _clientService.CreateAsync(newClient));
+    [HttpPost]
+    public async Task Register([FromBody] Client newClient) => await _clientService.CreateAsync(newClient);
 
-    [HttpPut("Update")]
-    public async Task<IActionResult> Update([FromBody] Client updatedClient) => Ok(await _clientService.UpdateAsync(updatedClient.Id, updatedClient));
+    [HttpPut("{id}")]
+    public async Task Update(string id, [FromBody] Client updatedClient) => await _clientService.UpdateAsync(id, updatedClient);
 
-    [HttpPut("Archive/{id:guid}")]
-    public async Task<IActionResult> Archive(Guid id) => Ok(await _clientService.ArchiveAsync(id));
+    [HttpPut("Archive/{id}")]
+    public async Task<ReplaceOneResult> Archive(string id) => await _clientService.ArchiveAsync(id);
 
-    [HttpDelete("Remove/{id:guid}")]
-    public async Task<IActionResult> Remove(Guid id) => Ok(await _clientService.DeleteAsync(id));
+    [HttpDelete("{id}")]
+    public async Task Remove(string id) => await _clientService.RemoveAsync(id);
 
 }

@@ -1,47 +1,30 @@
-using Cassandra.Mapping;
 using Cinema;
-using Cinema.Data;
-using Cinema.Mappers;
-using Cinema.Mappers.Interfaces;
-using Cinema.Models;
-using Cinema.Models.Dto;
-using Cinema.Models.Interfaces;
+using Cinema.Entity;
+using Cinema.Kafka;
+using Cinema.Kafka.Interfaces;
+using Cinema.Repository;
+using Cinema.Repository.Interfaces;
 using Cinema.Services;
 using Cinema.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var config = builder.Configuration;
+ConfigureMongoDb(builder.Configuration, args);
 
-// Add services to the container.
 var services = builder.Services;
 services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
 services.AddEndpointsApiExplorer();
 services.AddSwaggerGen();
 
-CinemaDb.SetUpConnection(config);
-MappingConfiguration.Global.Define<CassandraMappings>();
+RegisterRepositories(services);
+RegisterServices(services);
 
-services
-    .AddSingleton<IAddressService, AddressService>()
-    .AddSingleton<IClientService, ClientService>()
-    .AddSingleton<IMovieService, MovieService>()
-    .AddSingleton<IScreeningService, ScreeningService>()
-    .AddSingleton<ITicketService, TicketService>()
-    .AddSingleton<IOrderService, OrderService>();
-services
-    .AddSingleton<IEntityMapper<Address, AddressDto>, AddressMapper>()
-    .AddSingleton<IEntityMapper<Client, ClientDto>, ClientMapper>()
-    .AddSingleton<IEntityMapper<Movie, MovieDto>, MovieMapper>()
-    .AddSingleton<IEntityMapper<Screening, ScreeningDto>, ScreeningMapper>()
-    .AddSingleton<IEntityMapper<Ticket, TicketDto>, TicketMapper>()
-    .AddSingleton<IEntityMapper<Order, OrderDto>, OrderMapper>();
+services.AddSingleton<IKafkaProducer<Order>, KafkaProducer<Order>>();
 services.AddSingleton<TestData>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -58,3 +41,39 @@ app.MapControllers();
 testData?.InsertData();*/
 
 app.Run();
+
+
+static void RegisterRepositories(IServiceCollection serviceCollection)
+{
+    serviceCollection.AddSingleton<IClientsRepository, ClientsRepository>();
+    serviceCollection.AddSingleton<IAddressesRepository, AddressesRepository>();
+    serviceCollection.AddSingleton<IMoviesRepository, MoviesRepository>();
+    serviceCollection.AddSingleton<IScreeningsRepository, ScreeningsRepository>();
+    serviceCollection.AddSingleton<ITicketsRepository, TicketsRepository>();
+    serviceCollection.AddSingleton<IOrdersRepository, OrdersRepository>();
+}
+
+static void RegisterServices(IServiceCollection serviceCollection)
+{
+    serviceCollection.AddSingleton<IClientService, ClientService>();
+    serviceCollection.AddSingleton<IAddressService, AddressService>();
+    serviceCollection.AddSingleton<IMovieService, MovieService>();
+    serviceCollection.AddSingleton<IScreeningService, ScreeningService>();
+    serviceCollection.AddSingleton<ITicketService, TicketService>();
+    serviceCollection.AddSingleton<IOrderService, OrderService>();
+}
+
+static void ConfigureMongoDb(IConfiguration configuration, string[] strings)
+{
+    var mongoConfigurationSection = configuration.GetSection("MongoDb");
+    string? connectionString = mongoConfigurationSection.GetValue<string?>(Consts.ConnectionStringArgName);
+    string? databaseName = mongoConfigurationSection.GetValue<string?>(Consts.DatabaseNameArgName);
+
+    CinemaConnection.Configure(strings, (connectionString, databaseName));
+}
+
+
+
+
+
+

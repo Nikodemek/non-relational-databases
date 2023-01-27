@@ -1,4 +1,4 @@
-﻿using Cinema.Models;
+﻿using Cinema.Entity;
 using Cinema.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,12 +20,12 @@ public class ScreeningController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAll() => Ok(await _screeningService.GetAllAsync());
 
-    [HttpGet("{id:guid}")]
-    public async Task<IActionResult> Get(Guid id) => Ok(await _screeningService.GetAsync(id));
+    [HttpGet("{id}")]
+    public async Task<IActionResult> Get(string id) => Ok(await _screeningService.GetAsync(id));
 
-    [HttpPost("Register")]
-    public async Task<IActionResult> Register([FromBody] Screening newScreening) => Ok(await _screeningService.CreateAsync(newScreening));
+    [HttpPost]
+    public async Task Register([FromBody] Screening newScreening) => await _screeningService.CreateAsync(newScreening);
     
-    [HttpDelete("Remove/{id:guid}")]
-    public async Task<IActionResult> Remove(Guid id) => Ok(await _screeningService.DeleteAsync(id));
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Remove(string id) => Ok(await _screeningService.RemoveAsync(id));
 }

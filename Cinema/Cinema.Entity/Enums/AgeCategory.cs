@@ -1,4 +1,4 @@
-﻿namespace Cinema.Models;
+﻿namespace Cinema.Entity.Enums;
 
 public enum AgeCategory
 {

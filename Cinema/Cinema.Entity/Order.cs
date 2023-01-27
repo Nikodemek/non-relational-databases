@@ -1,9 +1,11 @@
-﻿using Cinema.Models.Interfaces;
-using Cinema.Utils;
+﻿using Cinema.Entity.Interfaces;
+using Cinema.Entity.Utils;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
-namespace Cinema.Models;
+namespace Cinema.Entity;
 
-public sealed record Order : IEntity
+public sealed record Order : IMongoEntity<Order>
 {
     public Order()
         : this(new HashSet<Ticket>())
@@ -15,10 +17,12 @@ public sealed record Order : IEntity
         FinalPrice = tickets.Sum(t => t.Price);
     }
     
-    public Guid Id { get; set; } = Generate.Id();
+    [BsonId]
+    [BsonRepresentation(BsonType.ObjectId)]
+    public string Id { get; set; } = Generate.Id();
     public Client? Client { get; set; }
     public DateTime PlacedTime { get; set; }
     public decimal FinalPrice { get; set; }
     public bool Success { get; set; }
-    public IEnumerable<Ticket> Tickets { get; set; }
+    public ICollection<Ticket> Tickets { get; set; }
 }

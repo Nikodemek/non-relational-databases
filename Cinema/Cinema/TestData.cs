@@ -1,6 +1,6 @@
-﻿using Cinema.Models;
+﻿using Cinema.Entity;
+using Cinema.Entity.Enums;
 using Cinema.Services.Interfaces;
-using Cinema.Utils;
 
 namespace Cinema;
 
@@ -79,22 +79,23 @@ public class TestData
 
     public async void InsertData()
     {
-        await _addressService.CreateAsync(Address1 with {Id = Generate.Id()});
-        await _clientService.CreateAsync(Client1 with {Id = Generate.Id()});
-        await _screeningService.CreateAsync(Screening1 with {Id = Generate.Id()});
-        await _movieService.CreateAsync(Movie1 with {Id = Generate.Id()});
-        await _ticketService.CreateAsync(Ticket2 with {Id = Generate.Id()});
-        await _orderService.CreateAsync(Order1 with {Id = Generate.Id()});
+        await _addressService.CreateAsync(Address1);
+        await _clientService.CreateAsync(Client1);
+        await _screeningService.CreateAsync(Screening1);
+        await _movieService.CreateAsync(Movie1);
+        await _ticketService.CreateAsync(Ticket1);
+        await _ticketService.CreateAsync(Ticket2);
+        await _orderService.CreateAsync(Order1);
     }
-
-    public async void DeleteData()
+    
+    public async void RemoveData()
     {
-        await _addressService.DeleteAsync(Address1.Id);
-        await _clientService.DeleteAsync(Client1.Id);
-        await _screeningService.DeleteAsync(Screening1.Id);
-        await _movieService.DeleteAsync(Movie1.Id);
-        await _ticketService.DeleteAsync(Ticket1.Id);
-        await _ticketService.DeleteAsync(Ticket2.Id);
-        await _orderService.DeleteAsync(Order1.Id);
+        await _addressService.RemoveAsync(Address1.Id);
+        await _clientService.RemoveAsync(Client1.Id);
+        await _screeningService.RemoveAsync(Screening1.Id);
+        await _movieService.RemoveAsync(Movie1.Id);
+        await _ticketService.RemoveAsync(Ticket1.Id);
+        await _ticketService.RemoveAsync(Ticket2.Id);
+        await _orderService.RemoveAsync(Order1.Id);
     }
 }

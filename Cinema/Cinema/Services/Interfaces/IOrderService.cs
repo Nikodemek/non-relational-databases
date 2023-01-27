@@ -1,8 +1,8 @@
-﻿using Cinema.Models;
+﻿using Cinema.Entity;
 
 namespace Cinema.Services.Interfaces;
 
 public interface IOrderService : ICommonService<Order>
 {
-    Task<Order> PlaceAsync(Guid clientId, ICollection<Guid> ticketIds);
+    Task<Order> PlaceAsync(string clientId, string[] ticketIds);
 }

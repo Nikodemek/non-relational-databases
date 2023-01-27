@@ -1,4 +1,4 @@
-﻿using Cinema.Models;
+﻿using Cinema.Entity;
 using Cinema.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,12 +20,12 @@ public class AddressController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAll() => Ok(await _addressService.GetAllAsync());
 
-    [HttpGet("{id:guid}")]
-    public async Task<IActionResult> Get(Guid id) => Ok(await _addressService.GetAsync(id));
+    [HttpGet("{id}")]
+    public async Task<IActionResult> Get(string id) => Ok(await _addressService.GetAsync(id));
 
-    [HttpPost("Register")]
-    public async Task<IActionResult> Register([FromBody] Address newAddress) => Ok(await _addressService.CreateAsync(newAddress));
+    [HttpPost]
+    public async Task Register([FromBody] Address newAddress) => await _addressService.CreateAsync(newAddress);
     
-    [HttpDelete("Remove/{id:guid}")]
-    public async Task<IActionResult> Remove(Guid id) => Ok(await _addressService.DeleteAsync(id));
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Remove(string id) => Ok(await _addressService.RemoveAsync(id));
 }

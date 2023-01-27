@@ -1,13 +1,12 @@
-﻿using Cinema.Mappers.Interfaces;
-using Cinema.Models;
-using Cinema.Models.Dto;
+﻿using Cinema.Entity;
+using Cinema.Repository.Interfaces;
 using Cinema.Services.Interfaces;
 
 namespace Cinema.Services;
 
-public sealed class MovieService : CommonService<Movie, MovieDto>, IMovieService
+public sealed class MovieService : CommonService<Movie>, IMovieService
 {
-    public MovieService(ILogger<MovieService> logger, IEntityMapper<Movie, MovieDto> mapper)
-        : base(logger, mapper)
+    public MovieService(IMoviesRepository clientRepository)
+        : base(clientRepository)
     { }
 }

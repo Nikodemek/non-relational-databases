@@ -1,4 +1,4 @@
-﻿using Cinema.Models;
+﻿using Cinema.Entity;
 
 namespace Cinema.Services.Interfaces;
 
