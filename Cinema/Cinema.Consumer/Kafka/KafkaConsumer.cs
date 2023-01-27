@@ -7,7 +7,7 @@ using Confluent.Kafka;
 
 namespace Cinema.Consumer.Kafka;
 
-class KafkaConsumer<TEntity> : IKafkaConsumer<TEntity>
+internal class KafkaConsumer<TEntity> : IKafkaConsumer<TEntity>
     where TEntity : class, IMongoEntity<TEntity>
 {
     private readonly ICommonsRepository<TEntity> _repository;
