@@ -30,15 +30,17 @@ try
             }
         }
     });
-
+    Console.WriteLine($"Successfully started Consumer!\n");
+    
     while (!cancellationToken.IsCancellationRequested)
     {
-        Console.WriteLine("Waiting for message...");
+        Console.WriteLine($"Waiting for message...");
 
         var fullResponse = await kafkaConsumer.ConsumeSingleAsync(cancellationToken.Token);
 
         Console.WriteLine(JsonSerializer.Serialize(fullResponse, KafkaConsts.JsonConsumerOptions));
-        Console.WriteLine();
+        Console.WriteLine($"ConsumerName: {kafkaConsumer.GetName()}\n" +
+                          $"ConsumerMemberId: {kafkaConsumer.GetMemberId()}\n\n");
     }
 }
 catch (OperationCanceledException)

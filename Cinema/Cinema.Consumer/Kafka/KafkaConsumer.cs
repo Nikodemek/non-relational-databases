@@ -1,5 +1,4 @@
-﻿using System.Text;
-using System.Text.Json;
+﻿using System.Text.Json;
 using Cinema.Consumer.Kafka.Interfaces;
 using Cinema.Entity.Interfaces;
 using Cinema.Entity.Kafka;
@@ -61,6 +60,10 @@ class KafkaConsumer<TEntity> : IKafkaConsumer<TEntity>
 
         return fullResponse;
     }
+
+    public string GetMemberId() => _consumer.MemberId;
+
+    public string GetName() => _consumer.Name;
 
     public void Dispose()
     {
