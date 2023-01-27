@@ -1,0 +1,117 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "schema-NDB_Cinema_Orders",
+  "description": "Schema of Order object for Ndb-Cinema application.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "Id": {
+      "type": "string"
+    },
+    "Client": {
+      "type": "object",
+      "properties": {
+        "Id": {
+          "type": "string"
+        },
+        "FirstName": {
+          "type": "string"
+        },
+        "LastName": {
+          "type": "string"
+        },
+        "Birthday": {
+          "type": "string"
+        },
+        "ClientType": {
+          "type": "integer"
+        },
+        "Address": {
+          "type": "object",
+          "properties": {
+            "Id": {
+              "type": "string"
+            },
+            "Country": {
+              "type": "string"
+            },
+            "City": {
+              "type": "string"
+            },
+            "Street": {
+              "type": "string"
+            },
+            "Number": {
+              "type": "string"
+            }
+          }
+        },
+        "AccountBalance": {
+          "type": "integer"
+        },
+        "Archived": {
+          "type": "boolean"
+        }
+      }
+    },
+    "PlacedTime": {
+      "type": "string"
+    },
+    "FinalPrice": {
+      "type": "integer"
+    },
+    "Success": {
+      "type": "boolean"
+    },
+    "Tickets": {
+      "type": "array",
+      "items": [
+        {
+          "type": "object",
+          "properties": {
+            "Id": {
+              "type": "string"
+            },
+            "Price": {
+              "type": "integer"
+            },
+            "Screening": {
+              "type": "object",
+              "properties": {
+                "Id": {
+                  "type": "string"
+                },
+                "Movie": {
+                  "type": "object",
+                  "properties": {
+                    "Id": {
+                      "type": "string"
+                    },
+                    "Title": {
+                      "type": "string"
+                    },
+                    "Length": {
+                      "type": "integer"
+                    },
+                    "AgeCategory": {
+                      "type": "integer"
+                    }
+                  }
+                },
+                "Time": {
+                  "type": "string"
+                }
+              }
+            },
+            "Sold": {
+              "type": "boolean"
+            },
+            "Archived": {
+              "type": "boolean"
+            }
+          }
+        }
+      ]
+    }
+  }
+}
