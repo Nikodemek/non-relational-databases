@@ -1,4 +1,7 @@
 using Cinema;
+using Cinema.Entity;
+using Cinema.Kafka;
+using Cinema.Kafka.Interfaces;
 using Cinema.Repository;
 using Cinema.Repository.Interfaces;
 using Cinema.Services;
@@ -6,7 +9,7 @@ using Cinema.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
-CinemaConnection.Configure(args, builder.Configuration);
+ConfigureMongoDb(builder.Configuration, args);
 
 var services = builder.Services;
 services.AddControllers();
@@ -17,6 +20,7 @@ services.AddSwaggerGen();
 RegisterRepositories(services);
 RegisterServices(services);
 
+services.AddSingleton<IKafkaProducer<Order>, KafkaProducer<Order>>();
 services.AddSingleton<TestData>();
 
 var app = builder.Build();
@@ -33,13 +37,13 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-var testData = app.Services.GetService<TestData>();
-testData?.InsertData();
+/*var testData = app.Services.GetService<TestData>();
+testData?.InsertData();*/
 
 app.Run();
 
 
-void RegisterRepositories(IServiceCollection serviceCollection)
+static void RegisterRepositories(IServiceCollection serviceCollection)
 {
     serviceCollection.AddSingleton<IClientsRepository, ClientsRepository>();
     serviceCollection.AddSingleton<IAddressesRepository, AddressesRepository>();
@@ -49,14 +53,23 @@ void RegisterRepositories(IServiceCollection serviceCollection)
     serviceCollection.AddSingleton<IOrdersRepository, OrdersRepository>();
 }
 
-void RegisterServices(IServiceCollection serviceCollection)
+static void RegisterServices(IServiceCollection serviceCollection)
 {
-    serviceCollection.AddTransient<IClientService, ClientService>();
-    serviceCollection.AddTransient<IAddressService, AddressService>();
-    serviceCollection.AddTransient<IMovieService, MovieService>();
-    serviceCollection.AddTransient<IScreeningService, ScreeningService>();
-    serviceCollection.AddTransient<ITicketService, TicketService>();
-    serviceCollection.AddTransient<IOrderService, OrderService>();
+    serviceCollection.AddSingleton<IClientService, ClientService>();
+    serviceCollection.AddSingleton<IAddressService, AddressService>();
+    serviceCollection.AddSingleton<IMovieService, MovieService>();
+    serviceCollection.AddSingleton<IScreeningService, ScreeningService>();
+    serviceCollection.AddSingleton<ITicketService, TicketService>();
+    serviceCollection.AddSingleton<IOrderService, OrderService>();
+}
+
+static void ConfigureMongoDb(IConfiguration configuration, string[] strings)
+{
+    var mongoConfigurationSection = configuration.GetSection("MongoDb");
+    string? connectionString = mongoConfigurationSection.GetValue<string?>(Consts.ConnectionStringArgName);
+    string? databaseName = mongoConfigurationSection.GetValue<string?>(Consts.DatabaseNameArgName);
+
+    CinemaConnection.Configure(strings, (connectionString, databaseName));
 }
 
 

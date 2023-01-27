@@ -7,4 +7,13 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Confluent.Kafka" Version="2.0.2" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Cinema.Entity\Cinema.Entity.csproj" />
+      <ProjectReference Include="..\Cinema.Repository\Cinema.Repository.csproj" />
+    </ItemGroup>
+
 </Project>

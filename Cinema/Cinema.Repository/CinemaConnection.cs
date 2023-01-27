@@ -1,14 +1,10 @@
-﻿using Microsoft.Extensions.Configuration;
-using MongoDB.Driver;
+﻿using MongoDB.Driver;
 using Parsevoir;
 
 namespace Cinema.Repository;
 
 public static class CinemaConnection
 {
-    private const string ConnectionStringArgName = "ConnectionString";
-    private const string DatabaseNameArgName = "DatabaseName";
-    
     private static string? _connectionString;
     private static string? _databaseName;
     private static bool _configured = false;
@@ -28,12 +24,12 @@ public static class CinemaConnection
         }
     }
 
-    public static void Configure(string[] arguments, IConfiguration configurationManager)
+    public static void Configure(string[] arguments, (string? connectionString, string? databaseName)? fallbackConfig = null)
     {
         var (connectionString, databaseName) = ParseDatabaseArgs(arguments);
-
-        connectionString ??= configurationManager[ConnectionStringArgName];
-        databaseName ??= configurationManager[DatabaseNameArgName];
+        
+        connectionString ??= fallbackConfig?.connectionString;
+        databaseName ??= fallbackConfig?.databaseName;
         
         _connectionString = !String.IsNullOrWhiteSpace(connectionString)
             ? connectionString
@@ -47,17 +43,20 @@ public static class CinemaConnection
 
     private static (string? ConnectionString, string? DatabaseName) ParseDatabaseArgs(string[] arguments)
     {
-        string? connectionString = GetValue(ConnectionStringArgName);
-        string? databaseName = GetValue(DatabaseNameArgName);
+        string? connectionString = GetValue(Consts.ConnectionStringArgName);
+        string? databaseName = GetValue(Consts.DatabaseNameArgName);
 
         return (connectionString, databaseName);
 
+        
         string? GetValue(string argName)
         {
-            string template = $"{argName}={{}}";
+            string template = $"{argName}={{0}}";
             string? value = arguments.SingleOrDefault(s => s.StartsWith(argName));
 
-            return value is not null ? Parse.Single<string>(value, template) : null;
+            return value is not null
+                ? Parse.Single<string>(value, template)
+                : null;
         }
     }
 }

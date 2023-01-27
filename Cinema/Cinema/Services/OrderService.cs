@@ -1,25 +1,28 @@
-﻿using Cinema.Entity;
-using Cinema.Entity.Enums;
+﻿using System.Text.Json;
+using Cinema.Entity;
+using Cinema.Kafka.Interfaces;
 using Cinema.Repository.Interfaces;
 using Cinema.Services.Interfaces;
-using Cinema.Utils;
 using MongoDB.Driver;
 
 namespace Cinema.Services;
 
-public sealed class OrderService : CommonService<Order>, IOrderService
+internal sealed class OrderService : CommonService<Order>, IOrderService, IDisposable
 {
     private readonly IClientsRepository _clientsRepository;
     private readonly ITicketsRepository _ticketsRepository;
+    private readonly IKafkaProducer<Order> _kafkaProducer;
 
     public OrderService(
         IOrdersRepository ordersRepository,
         IClientsRepository clientsRepository,
-        ITicketsRepository ticketsRepository)
+        ITicketsRepository ticketsRepository,
+        IKafkaProducer<Order> kafkaProducer)
         : base(ordersRepository)
     {
         _clientsRepository = clientsRepository;
         _ticketsRepository = ticketsRepository;
+        _kafkaProducer = kafkaProducer;
     }
 
     public async Task<Order> PlaceAsync(string clientId, string[] ticketIds)
@@ -35,7 +38,7 @@ public sealed class OrderService : CommonService<Order>, IOrderService
             Success = false,
         };
         
-        if (client.Archived || tickets.Any(t => t.Archived || t.Sold)) return order;
+        /*if (client.Archived || tickets.Any(t => t.Archived || t.Sold)) return order;
 
         int clientAge = Calculate.Age(client);
         if (tickets.Any(t => clientAge < (int) (t.Screening?.Movie?.AgeCategory ?? AgeCategory.G))) return order;
@@ -55,8 +58,16 @@ public sealed class OrderService : CommonService<Order>, IOrderService
             .Select(t => _ticketsRepository.UpdateAsync(t.Id, t))
             .Append(CreateAsync(order))
             .Append(_clientsRepository.UpdateAsync(client.Id, client))
-        );
-        
+        );*/
+
+        var result = await _kafkaProducer.ProduceAsync(order);
+        Console.WriteLine($"Message successfully sent! Key: {result.Key}");
+
         return order;
+    }
+
+    public void Dispose()
+    {
+        _kafkaProducer.Dispose();
     }
 }

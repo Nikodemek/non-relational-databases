@@ -1,10 +1,12 @@
-﻿namespace Cinema.Entity.Utils;
+﻿using MongoDB.Bson;
+
+namespace Cinema.Entity.Utils;
 
 internal static class Generate
 {
     public static string Id()
     {
-        var guid = Guid.NewGuid();
-        return guid.ToString();
+        var objectId = ObjectId.GenerateNewId();
+        return objectId.ToString();
     }
 }
